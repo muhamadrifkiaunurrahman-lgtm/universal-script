@@ -3,7 +3,12 @@ local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
+local Workspace = game:GetService("Workspace")
+local Lighting = game:GetService("Lighting")
+local VirtualUser = game:GetService("VirtualUser")
+local Camera = Workspace.CurrentCamera
 local player = Players.LocalPlayer
+local mouse = player:GetMouse()
 
 if CoreGui:FindFirstChild("KiyHub") then
 	CoreGui.KiyHub:Destroy()
@@ -14,51 +19,45 @@ KiyHub.Name = "KiyHub"
 KiyHub.Parent = CoreGui
 KiyHub.ResetOnSpawn = false
 
+local toggleKey = "RightShift"
+local themeColor = Color3.fromRGB(0, 255, 200)
+local themeObjects = {}
+
 local function showNotifier(message)
 	local playerGui = player:WaitForChild("PlayerGui")
 	if playerGui:FindFirstChild("KiyNotifier") then
 		playerGui.KiyNotifier:Destroy()
 	end
-
 	local screenGui = Instance.new("ScreenGui")
 	screenGui.Name = "KiyNotifier"
 	screenGui.Parent = playerGui
-
 	local label = Instance.new("TextLabel")
 	label.Size = UDim2.new(0, 300, 0, 45)
 	label.Position = UDim2.new(0.5, -150, -0.1, 0)
 	label.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
-	label.TextColor3 = Color3.fromRGB(0, 255, 200)
+	label.TextColor3 = themeColor
+	table.insert(themeObjects, {obj = label, prop = "TextColor3"})
 	label.TextStrokeTransparency = 0.8
 	label.Font = Enum.Font.GothamBold
 	label.TextScaled = true
 	label.Text = message
 	label.Parent = screenGui
-
 	local corner = Instance.new("UICorner")
 	corner.CornerRadius = UDim.new(0, 8)
 	corner.Parent = label
-
 	local padding = Instance.new("UIPadding")
 	padding.PaddingBottom = UDim.new(0, 5)
 	padding.PaddingTop = UDim.new(0, 5)
 	padding.Parent = label
-
 	local sound = Instance.new("Sound")
 	sound.SoundId = "rbxassetid://9118820863"
 	sound.Volume = 0.5
 	sound.Parent = label
 	sound:Play()
-
-	local tweenIn = TweenService:Create(label, TweenInfo.new(0.4, Enum.EasingStyle.Back), {
-		Position = UDim2.new(0.5, -150, 0.05, 0)
-	})
+	local tweenIn = TweenService:Create(label, TweenInfo.new(0.4, Enum.EasingStyle.Back), {Position = UDim2.new(0.5, -150, 0.05, 0)})
 	tweenIn:Play()
-
 	task.delay(2, function()
-		local tweenOut = TweenService:Create(label, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
-			Position = UDim2.new(0.5, -150, -0.1, 0)
-		})
+		local tweenOut = TweenService:Create(label, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {Position = UDim2.new(0.5, -150, -0.1, 0)})
 		tweenOut:Play()
 		tweenOut.Completed:Wait()
 		screenGui:Destroy()
@@ -67,8 +66,8 @@ end
 
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "MainFrame"
-MainFrame.Size = UDim2.new(0, 450, 0, 350)
-MainFrame.Position = UDim2.new(0.5, -225, 0.5, -175)
+MainFrame.Size = UDim2.new(0, 550, 0, 400)
+MainFrame.Position = UDim2.new(0.5, -275, 0.5, -200)
 MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
 MainFrame.BorderSizePixel = 0
 MainFrame.Parent = KiyHub
@@ -98,7 +97,8 @@ Title.Size = UDim2.new(1, -50, 1, 0)
 Title.Position = UDim2.new(0, 15, 0, 0)
 Title.BackgroundTransparency = 1
 Title.Text = "KIY HUB | PREMIUM"
-Title.TextColor3 = Color3.fromRGB(0, 255, 200)
+Title.TextColor3 = themeColor
+table.insert(themeObjects, {obj = Title, prop = "TextColor3"})
 Title.Font = Enum.Font.GothamBlack
 Title.TextSize = 18
 Title.TextXAlignment = Enum.TextXAlignment.Left
@@ -108,11 +108,6 @@ local dragging
 local dragInput
 local dragStart
 local startPos
-
-local function update(input)
-	local delta = input.Position - dragStart
-	MainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-end
 
 TopBar.InputBegan:Connect(function(input)
 	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
@@ -135,116 +130,172 @@ end)
 
 UserInputService.InputChanged:Connect(function(input)
 	if input == dragInput and dragging then
-		update(input)
+		local delta = input.Position - dragStart
+		MainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
 	end
 end)
 
-local ScrollFrame = Instance.new("ScrollingFrame")
-ScrollFrame.Size = UDim2.new(1, -20, 1, -60)
-ScrollFrame.Position = UDim2.new(0, 10, 0, 50)
-ScrollFrame.BackgroundTransparency = 1
-ScrollFrame.ScrollBarThickness = 4
-ScrollFrame.Parent = MainFrame
+local TabContainer = Instance.new("Frame")
+TabContainer.Size = UDim2.new(0, 130, 1, -40)
+TabContainer.Position = UDim2.new(0, 0, 0, 40)
+TabContainer.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
+TabContainer.BorderSizePixel = 0
+TabContainer.Parent = MainFrame
 
-local GridLayout = Instance.new("UIGridLayout")
-GridLayout.CellSize = UDim2.new(0.48, 0, 0, 40)
-GridLayout.CellPadding = UDim2.new(0.04, 0, 0, 10)
-GridLayout.Parent = ScrollFrame
+local TabListLayout = Instance.new("UIListLayout")
+TabListLayout.Parent = TabContainer
+TabListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+TabListLayout.Padding = UDim.new(0, 5)
 
-local function createButton(name, text, callback)
-	local btn = Instance.new("TextButton")
-	btn.Name = name
-	btn.Text = text
-	btn.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
-	btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-	btn.Font = Enum.Font.GothamBold
-	btn.TextSize = 14
-	btn.Parent = ScrollFrame
+local ContentContainer = Instance.new("Frame")
+ContentContainer.Size = UDim2.new(1, -140, 1, -50)
+ContentContainer.Position = UDim2.new(0, 135, 0, 45)
+ContentContainer.BackgroundTransparency = 1
+ContentContainer.Parent = MainFrame
 
-	local corner = Instance.new("UICorner")
-	corner.CornerRadius = UDim.new(0, 6)
-	corner.Parent = btn
+local pages = {}
 
-	btn.MouseEnter:Connect(function()
-		TweenService:Create(btn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(60, 60, 70)}):Play()
-	end)
-	btn.MouseLeave:Connect(function()
-		TweenService:Create(btn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(40, 40, 45)}):Play()
-	end)
+local function createTab(name)
+	local tabBtn = Instance.new("TextButton")
+	tabBtn.Size = UDim2.new(1, 0, 0, 35)
+	tabBtn.BackgroundTransparency = 1
+	tabBtn.Text = name
+	tabBtn.TextColor3 = Color3.fromRGB(200, 200, 200)
+	tabBtn.Font = Enum.Font.GothamBold
+	tabBtn.TextSize = 14
+	tabBtn.Parent = TabContainer
 
-	btn.MouseButton1Click:Connect(callback)
-	return btn
-end
+	local page = Instance.new("ScrollingFrame")
+	page.Size = UDim2.new(1, 0, 1, 0)
+	page.BackgroundTransparency = 1
+	page.ScrollBarThickness = 4
+	page.Visible = false
+	page.Parent = ContentContainer
 
-local function createTextBox(name, placeholder, callback)
-	local box = Instance.new("TextBox")
-	box.Name = name
-	box.PlaceholderText = placeholder
-	box.Text = ""
-	box.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
-	box.TextColor3 = Color3.fromRGB(0, 255, 200)
-	box.Font = Enum.Font.Gotham
-	box.TextSize = 14
-	box.Parent = ScrollFrame
+	local pageLayout = Instance.new("UIGridLayout")
+	pageLayout.CellSize = UDim2.new(0.48, 0, 0, 35)
+	pageLayout.CellPadding = UDim2.new(0.04, 0, 0, 10)
+	pageLayout.Parent = page
 
-	local corner = Instance.new("UICorner")
-	corner.CornerRadius = UDim.new(0, 6)
-	corner.Parent = box
+	table.insert(pages, {btn = tabBtn, content = page})
 
-	local border = Instance.new("UIStroke")
-	border.Color = Color3.fromRGB(60, 60, 70)
-	border.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-	border.Parent = box
-
-	box.FocusLost:Connect(function(enterPressed)
-		if enterPressed and box.Text ~= "" then
-			callback(box.Text)
-			box.Text = ""
+	tabBtn.MouseButton1Click:Connect(function()
+		for _, p in pairs(pages) do
+			p.content.Visible = false
+			p.btn.TextColor3 = Color3.fromRGB(200, 200, 200)
 		end
+		page.Visible = true
+		tabBtn.TextColor3 = themeColor
 	end)
-	return box
+
+	return page
 end
 
-local espEnabled = false
-local espObjects = {}
+local function updateTheme(newColor)
+	themeColor = newColor
+	for _, item in pairs(themeObjects) do
+		if item.obj and item.obj.Parent then
+			item.obj[item.prop] = newColor
+		end
+	end
+	for _, p in pairs(pages) do
+		if p.content.Visible then
+			p.btn.TextColor3 = newColor
+		end
+	end
+end
 
-createButton("ESPBtn", "Toggle ESP", function()
-	espEnabled = not espEnabled
-	if espEnabled then
-		for _, obj in ipairs(workspace:GetDescendants()) do
-			if obj:IsA("Humanoid") and obj.Parent ~= player.Character then
-				local hl = Instance.new("Highlight")
-				hl.Adornee = obj.Parent
-				hl.FillColor = Color3.fromRGB(255, 0, 0)
-				hl.OutlineColor = Color3.fromRGB(255, 255, 255)
-				hl.Parent = obj.Parent
-				table.insert(espObjects, hl)
+local PlayerTab = createTab("Player")
+local VisualTab = createTab("Visuals")
+local MiscTab = createTab("Misc")
+local SettingTab = createTab("Settings")
+
+pages[1].content.Visible = true
+pages[1].btn.TextColor3 = themeColor
+
+local function createUIElement(type, parent, text, callback)
+	if type == "Button" then
+		local btn = Instance.new("TextButton")
+		btn.Text = text
+		btn.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
+		btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+		btn.Font = Enum.Font.GothamBold
+		btn.TextSize = 12
+		btn.Parent = parent
+		local corner = Instance.new("UICorner")
+		corner.CornerRadius = UDim.new(0, 6)
+		corner.Parent = btn
+		btn.MouseButton1Click:Connect(callback)
+		return btn
+	elseif type == "TextBox" then
+		local box = Instance.new("TextBox")
+		box.PlaceholderText = text
+		box.Text = ""
+		box.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
+		box.TextColor3 = themeColor
+		table.insert(themeObjects, {obj = box, prop = "TextColor3"})
+		box.Font = Enum.Font.Gotham
+		box.TextSize = 12
+		box.Parent = parent
+		local corner = Instance.new("UICorner")
+		corner.CornerRadius = UDim.new(0, 6)
+		corner.Parent = box
+		local border = Instance.new("UIStroke")
+		border.Color = Color3.fromRGB(60, 60, 70)
+		border.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+		border.Parent = box
+		box.FocusLost:Connect(function(enterPressed)
+			if enterPressed and box.Text ~= "" then
+				callback(box.Text)
+				box.Text = ""
 			end
-		end
-		showNotifier("ESP Activated")
-	else
-		for _, hl in pairs(espObjects) do
-			if hl and hl.Parent then hl:Destroy() end
-		end
-		espObjects = {}
-		showNotifier("ESP Deactivated")
+		end)
+		return box
+	end
+end
+
+createUIElement("TextBox", PlayerTab, "WalkSpeed", function(val)
+	if player.Character and player.Character:FindFirstChild("Humanoid") then
+		player.Character.Humanoid.WalkSpeed = tonumber(val) or 16
+		showNotifier("WalkSpeed: " .. val)
+	end
+end)
+
+createUIElement("TextBox", PlayerTab, "JumpPower", function(val)
+	if player.Character and player.Character:FindFirstChild("Humanoid") then
+		player.Character.Humanoid.UseJumpPower = true
+		player.Character.Humanoid.JumpPower = tonumber(val) or 50
+		showNotifier("JumpPower: " .. val)
 	end
 end)
 
 local flying = false
 local bodyVel
-createButton("FlyBtn", "Toggle Fly", function()
+createUIElement("Button", PlayerTab, "Fly", function()
 	flying = not flying
 	local char = player.Character
 	if flying and char and char:FindFirstChild("HumanoidRootPart") then
 		bodyVel = Instance.new("BodyVelocity")
 		bodyVel.MaxForce = Vector3.new(9e9, 9e9, 9e9)
 		bodyVel.Parent = char.HumanoidRootPart
-		showNotifier("Fly Activated (Use WASD)")
+		showNotifier("Fly On")
 	else
 		if bodyVel then bodyVel:Destroy() end
-		showNotifier("Fly Deactivated")
+		showNotifier("Fly Off")
 	end
+end)
+
+local noclip = false
+RunService.Stepped:Connect(function()
+	if noclip and player.Character then
+		for _, p in pairs(player.Character:GetDescendants()) do
+			if p:IsA("BasePart") then p.CanCollide = false end
+		end
+	end
+end)
+createUIElement("Button", PlayerTab, "Noclip", function()
+	noclip = not noclip
+	showNotifier(noclip and "Noclip On" or "Noclip Off")
 end)
 
 local infJump = false
@@ -253,88 +304,271 @@ UserInputService.JumpRequest:Connect(function()
 		player.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
 	end
 end)
-
-createButton("InfJumpBtn", "Infinite Jump", function()
+createUIElement("Button", PlayerTab, "Infinite Jump", function()
 	infJump = not infJump
-	showNotifier(infJump and "Infinite Jump On" or "Infinite Jump Off")
+	showNotifier(infJump and "Inf Jump On" or "Inf Jump Off")
 end)
 
-local noclip = false
-RunService.Stepped:Connect(function()
-	if noclip and player.Character then
-		for _, part in pairs(player.Character:GetDescendants()) do
-			if part:IsA("BasePart") then part.CanCollide = false end
-		end
-	end
-end)
-
-createButton("NoclipBtn", "Toggle Noclip", function()
-	noclip = not noclip
-	showNotifier(noclip and "Noclip On" or "Noclip Off")
-end)
-
-createButton("GodModeBtn", "God Mode (Heal)", function()
+createUIElement("Button", PlayerTab, "God Mode", function()
 	if player.Character and player.Character:FindFirstChild("Humanoid") then
 		player.Character.Humanoid.Health = player.Character.Humanoid.MaxHealth
-		showNotifier("Health Restored to Max")
+		showNotifier("Healed Max")
 	end
 end)
 
-createTextBox("WalkSpeedBox", "Set WalkSpeed (Enter)", function(val)
-	local num = tonumber(val)
-	if num and player.Character and player.Character:FindFirstChild("Humanoid") then
-		player.Character.Humanoid.WalkSpeed = num
-		showNotifier("WalkSpeed set to " .. num)
-	end
-end)
-
-createTextBox("JumpPowerBox", "Set JumpPower (Enter)", function(val)
-	local num = tonumber(val)
-	if num and player.Character and player.Character:FindFirstChild("Humanoid") then
-		player.Character.Humanoid.UseJumpPower = true
-		player.Character.Humanoid.JumpPower = num
-		showNotifier("JumpPower set to " .. num)
-	end
-end)
-
-createTextBox("GotoBox", "Teleport to Player", function(val)
-	local target = Players:FindFirstChild(val)
-	if target and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
-		if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-			player.Character.HumanoidRootPart.CFrame = target.Character.HumanoidRootPart.CFrame + Vector3.new(0, 3, 0)
-			showNotifier("Teleported to " .. target.Name)
-		end
+local spinbot = false
+createUIElement("Button", PlayerTab, "Spinbot", function()
+	spinbot = not spinbot
+	if spinbot and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+		local spin = Instance.new("BodyAngularVelocity")
+		spin.Name = "KiySpin"
+		spin.AngularVelocity = Vector3.new(0, 50, 0)
+		spin.MaxTorque = Vector3.new(0, 9e9, 0)
+		spin.Parent = player.Character.HumanoidRootPart
+		showNotifier("Spinbot On")
 	else
-		showNotifier("Player not found!")
+		if player.Character and player.Character.HumanoidRootPart:FindFirstChild("KiySpin") then
+			player.Character.HumanoidRootPart.KiySpin:Destroy()
+		end
+		showNotifier("Spinbot Off")
 	end
 end)
 
-local destroyBtn = createButton("DestroyUIBtn", "DESTROY UI", function()
-	showNotifier("Shutting down Kiy Hub...")
-	task.wait(1)
-	if KiyHub then
-		KiyHub:Destroy()
+createUIElement("Button", PlayerTab, "Super Jump", function()
+	if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+		player.Character.HumanoidRootPart.Velocity = player.Character.HumanoidRootPart.Velocity + Vector3.new(0, 150, 0)
 	end
+end)
+
+local waterWalk = false
+createUIElement("Button", PlayerTab, "Water Walk", function()
+	waterWalk = not waterWalk
+	if waterWalk then
+		Workspace.Terrain.WaterWaveSize = 0
+		Workspace.Terrain.WaterWaveSpeed = 0
+		local p = Instance.new("Part")
+		p.Name = "KiyWater"
+		p.Size = Vector3.new(5000, 1, 5000)
+		p.Position = Vector3.new(0, 0, 0)
+		p.Transparency = 1
+		p.Anchored = true
+		p.Parent = Workspace
+		showNotifier("Water Walk On")
+	else
+		if Workspace:FindFirstChild("KiyWater") then Workspace.KiyWater:Destroy() end
+		showNotifier("Water Walk Off")
+	end
+end)
+
+createUIElement("TextBox", PlayerTab, "Gravity", function(val)
+	Workspace.Gravity = tonumber(val) or 196.2
+	showNotifier("Gravity: " .. tostring(Workspace.Gravity))
+end)
+
+local aimbot = false
+RunService.RenderStepped:Connect(function()
+	if aimbot then
+		local target = nil
+		local dist = math.huge
+		for _, p in pairs(Players:GetPlayers()) do
+			if p ~= player and p.Character and p.Character:FindFirstChild("Head") and p.Character:FindFirstChild("Humanoid") and p.Character.Humanoid.Health > 0 then
+				local pos, vis = Camera:WorldToViewportPoint(p.Character.Head.Position)
+				if vis then
+					local mag = (Vector2.new(mouse.X, mouse.Y) - Vector2.new(pos.X, pos.Y)).Magnitude
+					if mag < dist then
+						dist = mag
+						target = p.Character.Head
+					end
+				end
+			end
+		end
+		if target then
+			Camera.CFrame = CFrame.new(Camera.CFrame.Position, target.Position)
+		end
+	end
+end)
+createUIElement("Button", VisualTab, "Aimbot", function()
+	aimbot = not aimbot
+	showNotifier(aimbot and "Aimbot On" or "Aimbot Off")
+end)
+
+local espEnabled = false
+local espObjects = {}
+createUIElement("Button", VisualTab, "ESP Highlight", function()
+	espEnabled = not espEnabled
+	if espEnabled then
+		for _, p in pairs(Players:GetPlayers()) do
+			if p ~= player and p.Character then
+				local hl = Instance.new("Highlight")
+				hl.Adornee = p.Character
+				hl.FillColor = themeColor
+				hl.Parent = p.Character
+				table.insert(espObjects, hl)
+			end
+		end
+		showNotifier("ESP Highlight On")
+	else
+		for _, hl in pairs(espObjects) do if hl and hl.Parent then hl:Destroy() end end
+		espObjects = {}
+		showNotifier("ESP Highlight Off")
+	end
+end)
+
+local espName = false
+createUIElement("Button", VisualTab, "ESP Name", function()
+	espName = not espName
+	if espName then
+		for _, p in pairs(Players:GetPlayers()) do
+			if p ~= player and p.Character and p.Character:FindFirstChild("Head") then
+				local bg = Instance.new("BillboardGui")
+				bg.Name = "KiyName"
+				bg.Size = UDim2.new(0, 100, 0, 40)
+				bg.AlwaysOnTop = true
+				bg.Adornee = p.Character.Head
+				local tl = Instance.new("TextLabel")
+				tl.Size = UDim2.new(1, 0, 1, 0)
+				tl.BackgroundTransparency = 1
+				tl.Text = p.Name
+				tl.TextColor3 = Color3.fromRGB(255, 255, 255)
+				tl.Parent = bg
+				bg.Parent = p.Character.Head
+			end
+		end
+		showNotifier("ESP Name On")
+	else
+		for _, p in pairs(Players:GetPlayers()) do
+			if p.Character and p.Character:FindFirstChild("Head") and p.Character.Head:FindFirstChild("KiyName") then
+				p.Character.Head.KiyName:Destroy()
+			end
+		end
+		showNotifier("ESP Name Off")
+	end
+end)
+
+local hitbox = false
+createUIElement("Button", VisualTab, "Hitbox Expander", function()
+	hitbox = not hitbox
+	for _, p in pairs(Players:GetPlayers()) do
+		if p ~= player and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
+			if hitbox then
+				p.Character.HumanoidRootPart.Size = Vector3.new(10, 10, 10)
+				p.Character.HumanoidRootPart.Transparency = 0.5
+			else
+				p.Character.HumanoidRootPart.Size = Vector3.new(2, 2, 1)
+				p.Character.HumanoidRootPart.Transparency = 1
+			end
+		end
+	end
+	showNotifier(hitbox and "Hitbox Expanded" or "Hitbox Normal")
+end)
+
+createUIElement("TextBox", VisualTab, "FOV Changer", function(val)
+	Camera.FieldOfView = tonumber(val) or 70
+	showNotifier("FOV: " .. val)
+end)
+
+createUIElement("Button", VisualTab, "FPS Boost", function()
+	for _, d in pairs(Workspace:GetDescendants()) do
+		if d:IsA("BasePart") then
+			d.Material = Enum.Material.SmoothPlastic
+		end
+	end
+	Lighting.GlobalShadows = false
+	showNotifier("FPS Boost Applied")
+end)
+
+createUIElement("Button", VisualTab, "Day / Night", function()
+	if Lighting.ClockTime == 14 then
+		Lighting.ClockTime = 0
+		showNotifier("Night Time")
+	else
+		Lighting.ClockTime = 14
+		showNotifier("Day Time")
+	end
+end)
+
+createUIElement("TextBox", MiscTab, "Teleport Player", function(val)
+	local t = Players:FindFirstChild(val)
+	if t and t.Character and t.Character:FindFirstChild("HumanoidRootPart") and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+		player.Character.HumanoidRootPart.CFrame = t.Character.HumanoidRootPart.CFrame + Vector3.new(0, 3, 0)
+		showNotifier("TP to " .. t.Name)
+	end
+end)
+
+local clickTP = false
+mouse.Button1Down:Connect(function()
+	if clickTP and UserInputService:IsKeyDown(Enum.KeyCode.LeftControl) and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+		player.Character.HumanoidRootPart.CFrame = CFrame.new(mouse.Hit.p + Vector3.new(0, 3, 0))
+	end
+end)
+createUIElement("Button", MiscTab, "Click TP (Ctrl+Click)", function()
+	clickTP = not clickTP
+	showNotifier(clickTP and "Click TP On" or "Click TP Off")
+end)
+
+createUIElement("Button", MiscTab, "Get Btools", function()
+	local tool = Instance.new("HopperBin")
+	tool.BinType = Enum.BinType.Clone
+	tool.Parent = player.Backpack
+	local tool2 = Instance.new("HopperBin")
+	tool2.BinType = Enum.BinType.Hammer
+	tool2.Parent = player.Backpack
+	showNotifier("Btools Given")
+end)
+
+local antiAfk
+createUIElement("Button", MiscTab, "Anti-AFK", function()
+	if not antiAfk then
+		antiAfk = player.Idled:Connect(function()
+			VirtualUser:CaptureController()
+			VirtualUser:ClickButton2(Vector2.new())
+		end)
+		showNotifier("Anti-AFK On")
+	else
+		antiAfk:Disconnect()
+		antiAfk = nil
+		showNotifier("Anti-AFK Off")
+	end
+end)
+
+local autoClick = false
+createUIElement("Button", MiscTab, "Auto Clicker", function()
+	autoClick = not autoClick
+	showNotifier(autoClick and "Auto Clicker On" or "Auto Clicker Off")
+end)
+RunService.RenderStepped:Connect(function()
+	if autoClick then
+		VirtualUser:CaptureController()
+		VirtualUser:ClickButton1(Vector2.new())
+	end
+end)
+
+local destroyBtn = createUIElement("Button", MiscTab, "DESTROY UI", function()
+	if KiyHub then KiyHub:Destroy() end
 end)
 destroyBtn.BackgroundColor3 = Color3.fromRGB(200, 40, 40)
-destroyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 
-local CloseBtn = Instance.new("TextButton")
-CloseBtn.Size = UDim2.new(0, 30, 0, 30)
-CloseBtn.Position = UDim2.new(1, -35, 0, 5)
-CloseBtn.BackgroundColor3 = Color3.fromRGB(200, 40, 40)
-CloseBtn.Text = "X"
-CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-CloseBtn.Font = Enum.Font.GothamBold
-CloseBtn.Parent = TopBar
-
-local CloseCorner = Instance.new("UICorner")
-CloseCorner.CornerRadius = UDim.new(0, 6)
-CloseCorner.Parent = CloseBtn
-
-CloseBtn.MouseButton1Click:Connect(function()
-	MainFrame.Visible = false
-	showNotifier("Kiy Hub Hidden")
+local keyBindBtn = createUIElement("Button", SettingTab, "Bind: RightShift", function()
+	keyBindBtn.Text = "Press any key..."
+	local conn
+	conn = UserInputService.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.Keyboard then
+			toggleKey = input.KeyCode.Name
+			keyBindBtn.Text = "Bind: " .. toggleKey
+			showNotifier("Shortcut set to " .. toggleKey)
+			conn:Disconnect()
+		end
+	end)
 end)
 
-showNotifier("Welcome to Kiy Hub! UI Modern Loaded.")
+createUIElement("Button", SettingTab, "Color: Neon Cyan", function() updateTheme(Color3.fromRGB(0, 255, 200)) end)
+createUIElement("Button", SettingTab, "Color: Neon Pink", function() updateTheme(Color3.fromRGB(255, 0, 200)) end)
+createUIElement("Button", SettingTab, "Color: Neon Red", function() updateTheme(Color3.fromRGB(255, 50, 50)) end)
+createUIElement("Button", SettingTab, "Color: Neon Green", function() updateTheme(Color3.fromRGB(50, 255, 50)) end)
+
+UserInputService.InputBegan:Connect(function(input, gp)
+	if gp then return end
+	if input.KeyCode.Name == toggleKey then
+		MainFrame.Visible = not MainFrame.Visible
+	end
+end)
