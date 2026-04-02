@@ -6,88 +6,48 @@ local RS = game:GetService("RunService")
 local WS = game:GetService("Workspace")
 local Lighting = game:GetService("Lighting")
 local p = Players.LocalPlayer
+local mouse = p:GetMouse()
 local cam = WS.CurrentCamera
 
-if CoreGui:FindFirstChild("KiyHub") then
-	CoreGui.KiyHub:Destroy()
+if CoreGui:FindFirstChild("KiyElite") then
+	CoreGui.KiyElite:Destroy()
 end
 
 local gui = Instance.new("ScreenGui")
-gui.Name = "KiyHub"
+gui.Name = "KiyElite"
 gui.Parent = CoreGui
 gui.ResetOnSpawn = false
 
 local toggleKey = "RightShift"
-local themeCol = Color3.fromRGB(0, 255, 200)
-local tObjs = {}
-
-local function notify(msg)
-	local pg = p:WaitForChild("PlayerGui")
-	if pg:FindFirstChild("KiyNotif") then pg.KiyNotif:Destroy() end
-	local sg = Instance.new("ScreenGui")
-	sg.Name = "KiyNotif"
-	sg.Parent = pg
-	local lb = Instance.new("TextLabel")
-	lb.Size = UDim2.new(0, 300, 0, 45)
-	lb.Position = UDim2.new(0.5, -150, -0.1, 0)
-	lb.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
-	lb.TextColor3 = themeCol
-	table.insert(tObjs, {o = lb, prop = "TextColor3"})
-	lb.TextStrokeTransparency = 0.8
-	lb.Font = Enum.Font.GothamBold
-	lb.TextScaled = true
-	lb.Text = msg
-	lb.Parent = sg
-	local cr = Instance.new("UICorner")
-	cr.CornerRadius = UDim.new(0, 8)
-	cr.Parent = lb
-	local pd = Instance.new("UIPadding")
-	pd.PaddingBottom = UDim.new(0, 5)
-	pd.PaddingTop = UDim.new(0, 5)
-	pd.Parent = lb
-	local s = Instance.new("Sound")
-	s.SoundId = "rbxassetid://9118820863"
-	s.Volume = 0.5
-	s.Parent = lb
-	s:Play()
-	TS:Create(lb, TweenInfo.new(0.4, Enum.EasingStyle.Back), {Position = UDim2.new(0.5, -150, 0.05, 0)}):Play()
-	task.delay(2, function()
-		TS:Create(lb, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {Position = UDim2.new(0.5, -150, -0.1, 0)}):Play()
-		task.wait(0.4)
-		sg:Destroy()
-	end)
-end
+local neon = Color3.fromRGB(0, 255, 200)
 
 local main = Instance.new("Frame")
-main.Size = UDim2.new(0, 600, 0, 450)
-main.Position = UDim2.new(0.5, -300, 0.5, -225)
-main.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+main.Size = UDim2.new(0, 650, 0, 480)
+main.Position = UDim2.new(0.5, -325, 0.5, -240)
+main.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
 main.BorderSizePixel = 0
 main.Parent = gui
-Instance.new("UICorner", main).CornerRadius = UDim.new(0, 10)
+Instance.new("UICorner", main).CornerRadius = UDim.new(0, 15)
+
+local glow = Instance.new("UIStroke")
+glow.Color = neon
+glow.Thickness = 2
+glow.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+glow.Parent = main
 
 local top = Instance.new("Frame")
-top.Size = UDim2.new(1, 0, 0, 40)
-top.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
+top.Size = UDim2.new(1, 0, 0, 45)
+top.BackgroundTransparency = 1
 top.Parent = main
-Instance.new("UICorner", top).CornerRadius = UDim.new(0, 10)
-
-local hider = Instance.new("Frame")
-hider.Size = UDim2.new(1, 0, 0, 10)
-hider.Position = UDim2.new(0, 0, 1, -10)
-hider.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
-hider.BorderSizePixel = 0
-hider.Parent = top
 
 local title = Instance.new("TextLabel")
-title.Size = UDim2.new(1, -50, 1, 0)
-title.Position = UDim2.new(0, 15, 0, 0)
+title.Size = UDim2.new(1, -60, 1, 0)
+title.Position = UDim2.new(0, 20, 0, 0)
 title.BackgroundTransparency = 1
-title.Text = "KIY HUB | V3 PRANK EDITION"
-title.TextColor3 = themeCol
-table.insert(tObjs, {o = title, prop = "TextColor3"})
-title.Font = Enum.Font.GothamBlack
-title.TextSize = 18
+title.Text = "Kiy Hub | Elite v1.0"
+title.TextColor3 = Color3.fromRGB(240, 240, 240)
+title.Font = Enum.Font.GothamMedium
+title.TextSize = 20
 title.TextXAlignment = Enum.TextXAlignment.Left
 title.Parent = top
 
@@ -100,191 +60,182 @@ top.InputBegan:Connect(function(i)
 		i.Changed:Connect(function() if i.UserInputState == Enum.UserInputState.End then drag = false end end)
 	end
 end)
-top.InputChanged:Connect(function(i)
-	if i.UserInputType == Enum.UserInputType.MouseMovement then dragInp = i end
-end)
 UIS.InputChanged:Connect(function(i)
-	if i == dragInp and drag then
+	if drag and i.UserInputType == Enum.UserInputType.MouseMovement then
 		local delta = i.Position - dragStart
 		main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
 	end
 end)
 
 local tabCon = Instance.new("Frame")
-tabCon.Size = UDim2.new(0, 140, 1, -40)
-tabCon.Position = UDim2.new(0, 0, 0, 40)
-tabCon.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
-tabCon.BorderSizePixel = 0
+tabCon.Size = UDim2.new(0, 160, 1, -60)
+tabCon.Position = UDim2.new(0, 10, 0, 50)
+tabCon.BackgroundTransparency = 1
 tabCon.Parent = main
 
-local tll = Instance.new("UIListLayout")
-tll.Parent = tabCon
-tll.Padding = UDim.new(0, 5)
+Instance.new("UIListLayout", tabCon).Padding = UDim.new(0, 8)
 
 local pageCon = Instance.new("Frame")
-pageCon.Size = UDim2.new(1, -150, 1, -50)
-pageCon.Position = UDim2.new(0, 145, 0, 45)
+pageCon.Size = UDim2.new(1, -190, 1, -70)
+pageCon.Position = UDim2.new(0, 180, 0, 60)
 pageCon.BackgroundTransparency = 1
 pageCon.Parent = main
 
 local pages = {}
-local function mkTab(name)
-	local btn = Instance.new("TextButton")
-	btn.Size = UDim2.new(1, 0, 0, 35)
-	btn.BackgroundTransparency = 1
-	btn.Text = name
-	btn.TextColor3 = Color3.fromRGB(200, 200, 200)
-	btn.Font = Enum.Font.GothamBold
-	btn.TextSize = 14
-	btn.Parent = tabCon
-	local sf = Instance.new("ScrollingFrame")
-	sf.Size = UDim2.new(1, 0, 1, 0)
-	sf.BackgroundTransparency = 1
-	sf.ScrollBarThickness = 4
-	sf.Visible = false
-	sf.Parent = pageCon
-	local gl = Instance.new("UIGridLayout")
-	gl.CellSize = UDim2.new(0.48, 0, 0, 35)
-	gl.CellPadding = UDim2.new(0.04, 0, 0, 10)
-	gl.Parent = sf
-	table.insert(pages, {b = btn, p = sf})
-	btn.MouseButton1Click:Connect(function()
-		for _, x in pairs(pages) do
-			x.p.Visible = false
-			x.b.TextColor3 = Color3.fromRGB(200, 200, 200)
-		end
-		sf.Visible = true
-		btn.TextColor3 = themeCol
+local function mkTab(name, icon)
+	local b = Instance.new("TextButton")
+	b.Size = UDim2.new(1, 0, 0, 40)
+	b.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
+	b.Text = "  " .. icon .. "  " .. name
+	b.TextColor3 = Color3.fromRGB(200, 200, 200)
+	b.Font = Enum.Font.GothamMedium
+	b.TextSize = 14
+	b.TextXAlignment = Enum.TextXAlignment.Left
+	b.Parent = tabCon
+	Instance.new("UICorner", b).CornerRadius = UDim.new(0, 8)
+
+	local s = Instance.new("ScrollingFrame")
+	s.Size = UDim2.new(1, 0, 1, 0)
+	s.BackgroundTransparency = 1
+	s.ScrollBarThickness = 2
+	s.Visible = false
+	s.Parent = pageCon
+	Instance.new("UIGridLayout", s).CellSize = UDim2.new(0.48, 0, 0, 38)
+
+	table.insert(pages, {b = b, p = s})
+	b.MouseButton1Click:Connect(function()
+		for _, x in pairs(pages) do x.p.Visible = false x.b.TextColor3 = Color3.fromRGB(200, 200, 200) end
+		s.Visible = true b.TextColor3 = neon
 	end)
-	return sf
-end
-
-local pTab = mkTab("Player")
-local vTab = mkTab("Visuals")
-local prTab = mkTab("Pranks (25)")
-local sTab = mkTab("Settings")
-
-pages[1].p.Visible = true
-pages[1].b.TextColor3 = themeCol
-
-local function updTheme(c)
-	themeCol = c
-	for _, x in pairs(tObjs) do if x.o and x.o.Parent then x.o[x.prop] = c end end
-	for _, x in pairs(pages) do if x.p.Visible then x.b.TextColor3 = c end end
+	return s
 end
 
 local function mkUI(type, par, txt, cb)
-	if type == "Btn" then
+	local f = Instance.new("Frame")
+	f.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
+	f.Parent = par
+	Instance.new("UICorner", f).CornerRadius = UDim.new(0, 6)
+
+	if type == "Tog" then
+		local t = Instance.new("TextLabel")
+		t.Size = UDim2.new(1, -40, 1, 0)
+		t.Position = UDim2.new(0, 10, 0, 0)
+		t.Text = txt
+		t.TextColor3 = Color3.fromRGB(230, 230, 230)
+		t.Font = Enum.Font.Gotham
+		t.TextSize = 12
+		t.TextXAlignment = Enum.TextXAlignment.Left
+		t.BackgroundTransparency = 1
+		t.Parent = f
 		local b = Instance.new("TextButton")
-		b.Text = txt
+		b.Size = UDim2.new(0, 24, 0, 24)
+		b.Position = UDim2.new(1, -34, 0.5, -12)
 		b.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
-		b.TextColor3 = Color3.fromRGB(255, 255, 255)
-		b.Font = Enum.Font.GothamBold
-		b.TextSize = 12
-		b.Parent = par
+		b.Text = ""
+		b.Parent = f
 		Instance.new("UICorner", b).CornerRadius = UDim.new(0, 6)
-		b.MouseButton1Click:Connect(cb)
-		return b
+		local check = Instance.new("TextLabel")
+		check.Size = UDim2.new(1,0,1,0)
+		check.Text = "✓"
+		check.TextColor3 = neon
+		check.Visible = false
+		check.BackgroundTransparency = 1
+		check.Parent = b
+		local on = false
+		b.MouseButton1Click:Connect(function() on = not on check.Visible = on cb(on) end)
 	elseif type == "Box" then
 		local b = Instance.new("TextBox")
+		b.Size = UDim2.new(1, -20, 1, -10)
+		b.Position = UDim2.new(0, 10, 0, 5)
 		b.PlaceholderText = txt
 		b.Text = ""
-		b.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
-		b.TextColor3 = themeCol
-		table.insert(tObjs, {o = b, prop = "TextColor3"})
+		b.TextColor3 = neon
 		b.Font = Enum.Font.Gotham
 		b.TextSize = 12
-		b.Parent = par
-		Instance.new("UICorner", b).CornerRadius = UDim.new(0, 6)
-		local s = Instance.new("UIStroke")
-		s.Color = Color3.fromRGB(60, 60, 70)
-		s.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-		s.Parent = b
+		b.BackgroundTransparency = 1
+		b.Parent = f
 		b.FocusLost:Connect(function(ep) if ep and b.Text ~= "" then cb(b.Text) b.Text = "" end end)
-		return b
 	end
 end
 
-mkUI("Btn", sTab, "Bind: RightShift", function()
-	notify("Press any key to bind...")
-	local c
-	c = UIS.InputBegan:Connect(function(i)
-		if i.UserInputType == Enum.UserInputType.Keyboard then
-			toggleKey = i.KeyCode.Name
-			notify("Bound to: " .. toggleKey)
-			c:Disconnect()
+local combTab = mkTab("Combat", "⚔️")
+local moveTab = mkTab("Movement", "🏃")
+local visTab = mkTab("Visuals", "👁️")
+local utilTab = mkTab("Utilities", "🔧")
+local setTab = mkTab("Settings", "⚙️")
+pages[1].p.Visible = true pages[1].b.TextColor3 = neon
+
+local btm = Instance.new("Frame")
+btm.Size = UDim2.new(1, -20, 0, 40)
+btm.Position = UDim2.new(0, 10, 1, -50)
+btm.BackgroundTransparency = 1
+btm.Parent = main
+local des = Instance.new("TextButton")
+des.Size = UDim2.new(0, 100, 0, 30)
+des.Position = UDim2.new(1, -100, 0.5, -15)
+des.BackgroundColor3 = Color3.fromRGB(180, 50, 50)
+des.Text = "Destroy UI"
+des.TextColor3 = Color3.fromRGB(240, 240, 240)
+des.Font = Enum.Font.GothamMedium
+des.TextSize = 12
+des.Parent = btm
+Instance.new("UICorner", des).CornerRadius = UDim.new(0, 6Des.MouseButton1Click:Connect(function() gui:Destroy() end)
+
+mkUI("Box", setTab, "Bind Open/Close: RightShift", function(v) toggleKey = v end)
+UIS.InputBegan:Connect(function(i, gp) if not gp and i.KeyCode.Name == toggleKey then main.Visible = not main.Visible end end)
+
+local aimbot = false
+RS.RenderStepped:Connect(function()
+	if aimbot then
+		local target = nil local dist = 1000
+		for _, pl in pairs(Players:GetPlayers()) do
+			if pl ~= p and pl.Character and pl.Character:FindFirstChild("Head") then
+				local pos, vis = cam:WorldToViewportPoint(pl.Character.Head.Position)
+				if vis then
+					local mag = (Vector2.new(mouse.X, mouse.Y) - Vector2.new(pos.X, pos.Y)).Magnitude
+					if mag < dist then dist = mag target = pl.Character.Head end
+				end
+			end
 		end
-	end)
+		if target then cam.CFrame = CFrame.new(cam.CFrame.Position, target.Position) end
+	end
+end)
+mkUI("Tog", combTab, "Aimbot Camera", function(on) aimbot = on end)
+local hitbox = 2
+mkUI("Box", combTab, "Hitbox Size (default 2)", function(v) hitbox = tonumber(v) or 2 end)
+mkUI("Tog", combTab, "Hitbox Expander", function(on)
+	for _, pl in pairs(Players:GetPlayers()) do
+		if pl ~= p and pl.Character and pl.Character:FindFirstChild("HumanoidRootPart") then
+			pl.Character.HumanoidRootPart.Size = on and Vector3.new(10, 10, 10) or Vector3.new(2, 2, 1)
+			pl.Character.HumanoidRootPart.Transparency = on and 0.5 or 1
+		end
+	end
 end)
 
-mkUI("Btn", sTab, "Color: Neon Cyan", function() updTheme(Color3.fromRGB(0, 255, 200)) end)
-mkUI("Btn", sTab, "Color: Neon Red", function() updTheme(Color3.fromRGB(255, 50, 50)) end)
-mkUI("Btn", sTab, "Color: Neon Pink", function() updTheme(Color3.fromRGB(255, 0, 200)) end)
-mkUI("Btn", sTab, "Color: Neon Green", function() updTheme(Color3.fromRGB(50, 255, 50)) end)
+mkUI("Box", moveTab, "WalkSpeed", function(v) if p.Character and p.Character:FindFirstChild("Humanoid") then p.Character.Humanoid.WalkSpeed = tonumber(v) or 16 end end)
+mkUI("Box", moveTab, "JumpPower", function(v) if p.Character and p.Character:FindFirstChild("Humanoid") then p.Character.Humanoid.UseJumpPower = true p.Character.Humanoid.JumpPower = tonumber(v) or 50 end end)
+local noclip = false
+RS.Stepped:Connect(function() if noclip and p.Character then for _, x in pairs(p.Character:GetDescendants()) do if x:IsA("BasePart") then x.CanCollide = false end end end end)
+mkUI("Tog", moveTab, "Noclip", function(on) noclip = on end)
+local infJ = false
+UIS.JumpRequest:Connect(function() if infJ and p.Character and p.Character:FindFirstChild("Humanoid") then p.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping) end end)
+mkUI("Tog", moveTab, "Inf Jump", function(on) infJ = on end)
 
-local dBtn = mkUI("Btn", sTab, "DESTROY UI", function() gui:Destroy() end)
-dBtn.BackgroundColor3 = Color3.fromRGB(200, 40, 40)
-
-UIS.InputBegan:Connect(function(i, gp)
-	if gp then return end
-	if i.KeyCode.Name == toggleKey then main.Visible = not main.Visible end
-end)
-
-mkUI("Btn", pTab, "God Mode Heal", function() if p.Character and p.Character:FindFirstChild("Humanoid") then p.Character.Humanoid.Health = p.Character.Humanoid.MaxHealth end end)
-mkUI("Box", pTab, "WalkSpeed", function(v) if p.Character and p.Character:FindFirstChild("Humanoid") then p.Character.Humanoid.WalkSpeed = tonumber(v) or 16 end end)
-mkUI("Box", pTab, "JumpPower", function(v) if p.Character and p.Character:FindFirstChild("Humanoid") then p.Character.Humanoid.UseJumpPower = true p.Character.Humanoid.JumpPower = tonumber(v) or 50 end end)
-
-local espEnabled = false
-local espObjs = {}
-mkUI("Btn", vTab, "ESP Highlight", function()
-	espEnabled = not espEnabled
-	if espEnabled then
+local espH = false local espOs = {}
+mkUI("Tog", visTab, "Player ESP Box", function(on)
+	espH = on
+	if espH then
 		for _, pl in pairs(Players:GetPlayers()) do
 			if pl ~= p and pl.Character then
-				local hl = Instance.new("Highlight")
-				hl.Adornee = pl.Character
-				hl.FillColor = themeCol
-				hl.Parent = pl.Character
-				table.insert(espObjs, hl)
+				local hl = Instance.new("Highlight") hl.Adornee = pl.Character hl.FillColor = neon hl.Parent = pl.Character table.insert(espOs, hl)
 			end
 		end
 	else
-		for _, hl in pairs(espObjs) do if hl and hl.Parent then hl:Destroy() end end
-		espObjs = {}
+		for _, hl in pairs(espOs) do if hl and hl.Parent then hl:Destroy() end end espOs = {}
 	end
-	notify(espEnabled and "ESP On" or "ESP Off")
 end)
+mkUI("Tog", visTab, "Fullbright", function(on) Lighting.Ambient = on and Color3.new(1,1,1) or Color3.new(0.5,0.5,0.5) end)
+mkUI("Tog", visTab, "No Fog", function(on) Lighting.FogEnd = on and 1e9 or 1000 end)
 
-local pranks = {
-	{"Bald", function() if p.Character then for _,x in pairs(p.Character:GetChildren()) do if x:IsA("Accessory") and x.AccessoryType == Enum.AccessoryType.Hair then x:Destroy() end end end end},
-	{"Headless", function() if p.Character and p.Character:FindFirstChild("Head") then p.Character.Head.Transparency = 1 if p.Character.Head:FindFirstChild("face") then p.Character.Head.face:Destroy() end end end},
-	{"Naked", function() if p.Character then for _,x in pairs(p.Character:GetChildren()) do if x:IsA("Shirt") or x:IsA("Pants") or x:IsA("ShirtGraphic") then x:Destroy() end end end end},
-	{"Blocky Avatar", function() if p.Character then for _,x in pairs(p.Character:GetDescendants()) do if x:IsA("CharacterMesh") then x:Destroy() end end end end},
-	{"Big Head", function() if p.Character and p.Character:FindFirstChild("Humanoid") then local v = p.Character.Humanoid:FindFirstChild("HeadScale") if v then v.Value = 3 end end end},
-	{"Tiny Body", function() if p.Character and p.Character:FindFirstChild("Humanoid") then for _,x in pairs({"BodyDepthScale", "BodyWidthScale", "BodyHeightScale"}) do local v = p.Character.Humanoid:FindFirstChild(x) if v then v.Value = 0.3 end end end end},
-	{"Invert Screen", function() local cc = Lighting:FindFirstChild("KiyInvert") or Instance.new("ColorCorrectionEffect", Lighting) cc.Name = "KiyInvert" cc.Contrast = -2 task.delay(3, function() cc:Destroy() end) end},
-	{"Blindness", function() local bl = Lighting:FindFirstChild("KiyBlur") or Instance.new("BlurEffect", Lighting) bl.Name = "KiyBlur" bl.Size = 56 task.delay(3, function() bl:Destroy() end) end},
-	{"Disco Sky", function() task.spawn(function() for i=1, 20 do Lighting.Ambient = Color3.fromRGB(math.random(0,255), math.random(0,255), math.random(0,255)) task.wait(0.1) end Lighting.Ambient = Color3.fromRGB(128,128,128) end) end},
-	{"Screen Shake", function() task.spawn(function() local e = tick() + 2 while tick() < e do cam.CFrame = cam.CFrame * CFrame.new(math.random(-1,1), math.random(-1,1), math.random(-1,1)) task.wait() end end) end},
-	{"Jumpscare", function() local sg = Instance.new("ScreenGui", p:WaitForChild("PlayerGui")) local im = Instance.new("ImageLabel", sg) im.Size = UDim2.new(1,0,1,0) im.Image = "rbxassetid://10483855823" im.ScaleType = Enum.ScaleType.Crop local s = Instance.new("Sound", sg) s.SoundId = "rbxassetid://5567523008" s.Volume = 5 s:Play() task.delay(2, function() sg:Destroy() end) end},
-	{"Fart Walk", function() if p.Character and p.Character:FindFirstChild("HumanoidRootPart") then local s = Instance.new("Sound", p.Character.HumanoidRootPart) s.SoundId = "rbxassetid://4909405696" s.Volume = 2 s:Play() end end},
-	{"Fake Ban Msg", function() p:Kick("You have been permanently banned for exploiting. Reason: Unfair Advantage.") end},
-	{"Fake Error", function() local sg = Instance.new("ScreenGui", p:WaitForChild("PlayerGui")) local f = Instance.new("Frame", sg) f.Size = UDim2.new(1,0,1,0) f.BackgroundColor3 = Color3.new(0.5,0.5,0.5) local t = Instance.new("TextLabel", f) t.Size = UDim2.new(1,0,1,0) t.Text = "Connection Error: 277" t.TextScaled = true task.delay(3, function() sg:Destroy() end) end},
-	{"Explode Self", function() if p.Character and p.Character:FindFirstChild("HumanoidRootPart") then local ex = Instance.new("Explosion", WS) ex.Position = p.Character.HumanoidRootPart.Position ex.BlastRadius = 0 end end},
-	{"Upside Down", function() if p.Character and p.Character:FindFirstChild("HumanoidRootPart") then p.Character.HumanoidRootPart.CFrame = p.Character.HumanoidRootPart.CFrame * CFrame.Angles(0,0,math.rad(180)) end end},
-	{"Fling Self", function() if p.Character and p.Character:FindFirstChild("HumanoidRootPart") then p.Character.HumanoidRootPart.Velocity = Vector3.new(math.random(-500,500), 1000, math.random(-500,500)) end end},
-	{"Glitch FOV", function() task.spawn(function() for i=1, 20 do cam.FieldOfView = math.random(20, 120) task.wait(0.1) end cam.FieldOfView = 70 end) end},
-	{"Spaghetti Limbs", function() if p.Character then for _,x in pairs(p.Character:GetDescendants()) do if x:IsA("Motor6D") then x.C0 = x.C0 * CFrame.new(math.random(-1,1), math.random(-1,1), math.random(-1,1)) end end end end},
-	{"Freeze Frame", function() if p.Character and p.Character:FindFirstChild("HumanoidRootPart") then p.Character.HumanoidRootPart.Anchored = not p.Character.HumanoidRootPart.Anchored end end},
-	{"T-Pose", function() if p.Character and p.Character:FindFirstChild("Humanoid") then local a = p.Character.Humanoid:FindFirstChild("Animator") if a then a:Destroy() end end end},
-	{"Moon Gravity", function() WS.Gravity = 20 task.delay(5, function() WS.Gravity = 196.2 end) end},
-	{"Vomit Effect", function() if p.Character and p.Character:FindFirstChild("Head") then local pe = Instance.new("ParticleEmitter", p.Character.Head) pe.Color = ColorSequence.new(Color3.fromRGB(0,255,0)) pe.Texture = "rbxassetid://243662243" pe.Rate = 100 task.delay(2, function() pe:Destroy() end) end end},
-	{"WalkSpeed RNG", function() task.spawn(function() for i=1, 10 do if p.Character and p.Character:FindFirstChild("Humanoid") then p.Character.Humanoid.WalkSpeed = math.random(1, 100) end task.wait(0.5) end if p.Character then p.Character.Humanoid.WalkSpeed = 16 end end) end},
-	{"Drop Hats", function() if p.Character then for _,x in pairs(p.Character:GetChildren()) do if x:IsA("Accessory") then x.Parent = WS if x:FindFirstChild("Handle") then x.Handle.CFrame = p.Character.Head.CFrame end end end end end}
-}
-
-for _, pr in pairs(pranks) do
-	mkUI("Btn", prTab, pr[1], function() pr[2]() notify("Prank: " .. pr[1] .. " Activated!") end)
-end
-
-notify("Kiy Hub V3 Loaded! Press RightShift to hide/show.")
+mkUI("Tog", utilTab, "Anti-AFK", function(on) p.Idled:Connect(function() if on then game:GetService("VirtualUser"):CaptureController() game:GetService("VirtualUser"):ClickButton2(Vector2.new()) end end) end)
+mkUI("Btn", utilTab, "Get Btools", function() for _, x in pairs({Enum.BinType.Clone, Enum.BinType.Hammer}) do local t = Instance.new("HopperBin") t.BinType = x t.Parent = p.Backpack end end)
