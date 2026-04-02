@@ -1,2133 +1,340 @@
+local CoreGui = game:GetService("CoreGui")
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local player = Players.LocalPlayer
 
-local KenziesCheat = Instance.new("ScreenGui")
-local MainFrame = Instance.new("Frame")
-local UICorner = Instance.new("UICorner")
-local ESPButton = Instance.new("TextButton")
-local UICorner_2 = Instance.new("UICorner")
-local FLYButton = Instance.new("TextButton")
-local UICorner_3 = Instance.new("UICorner")
-local TextLabel = Instance.new("TextLabel")
-local UICorner_4 = Instance.new("UICorner")
-local INFJUMPButton = Instance.new("TextButton")
-local UICorner_5 = Instance.new("UICorner")
-local NOCLIPButton = Instance.new("TextButton")
-local UICorner_6 = Instance.new("UICorner")
-local TextLabel_2 = Instance.new("TextLabel")
-local UICorner_7 = Instance.new("UICorner")
-local PLAYERPOSITIONLabel = Instance.new("TextLabel")
-local UICorner_8 = Instance.new("UICorner")
-local INVISIBLEButton = Instance.new("TextButton")
-local UICorner_9 = Instance.new("UICorner")
-local GODMODEButton = Instance.new("TextButton")
-local UICorner_10 = Instance.new("UICorner")
-local GOTOPLAYERBox = Instance.new("TextBox")
-local UICorner_11 = Instance.new("UICorner")
-local UIPadding = Instance.new("UIPadding")
-local JUMPPOWERBox = Instance.new("TextBox")
-local UICorner_12 = Instance.new("UICorner")
-local UIPadding_2 = Instance.new("UIPadding")
-local WALKSPEEDBox = Instance.new("TextBox")
-local UICorner_13 = Instance.new("UICorner")
-local UIPadding_3 = Instance.new("UIPadding")
-local FLINGPLAYERBox = Instance.new("TextBox")
-local UICorner_14 = Instance.new("UICorner")
-local UIPadding_4 = Instance.new("UIPadding")
-local CloseFrame = Instance.new("TextButton")
-local UICorner_15 = Instance.new("UICorner")
-local TextLabel_3 = Instance.new("TextLabel")
-local UICorner_16 = Instance.new("UICorner")
-local ChatFrame = Instance.new("Frame")
-local UICorner_17 = Instance.new("UICorner")
-local ChatInput = Instance.new("TextBox")
-local UICorner_18 = Instance.new("UICorner")
-local SendButton = Instance.new("TextButton")
-local UICorner_19 = Instance.new("UICorner")
-local ChatDisplay = Instance.new("ScrollingFrame")
-local UIListLayout = Instance.new("UIListLayout")
-local ClearChatButton = Instance.new("TextButton")
-local UICorner_20 = Instance.new("UICorner")
-local OpenFrame = Instance.new("TextButton")
-local QuestImage = Instance.new("ImageLabel")
-local UICorner_21 = Instance.new("UICorner")
+if CoreGui:FindFirstChild("KiyHub") then
+	CoreGui.KiyHub:Destroy()
+end
 
---Properties:
+local KiyHub = Instance.new("ScreenGui")
+KiyHub.Name = "KiyHub"
+KiyHub.Parent = CoreGui
+KiyHub.ResetOnSpawn = false
 
-KenziesCheat.Name = "KenziesCheat"
-KenziesCheat.Parent = game.CoreGui
-KenziesCheat.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+local function showNotifier(message)
+	local playerGui = player:WaitForChild("PlayerGui")
+	if playerGui:FindFirstChild("KiyNotifier") then
+		playerGui.KiyNotifier:Destroy()
+	end
 
-MainFrame.Name = "MainFrame"
-MainFrame.Parent = KenziesCheat
-MainFrame.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
-MainFrame.BackgroundTransparency = 0.150
-MainFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
-MainFrame.BorderSizePixel = 0
-MainFrame.Position = UDim2.new(0.383893758, 0, 0.238929972, 0)
-MainFrame.Size = UDim2.new(0.231000006, 0, 0.519999981, 0)
+	local screenGui = Instance.new("ScreenGui")
+	screenGui.Name = "KiyNotifier"
+	screenGui.Parent = playerGui
 
-UICorner.CornerRadius = UDim.new(0, 11)
-UICorner.Parent = MainFrame
+	local label = Instance.new("TextLabel")
+	label.Size = UDim2.new(0, 300, 0, 45)
+	label.Position = UDim2.new(0.5, -150, -0.1, 0)
+	label.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
+	label.TextColor3 = Color3.fromRGB(0, 255, 200)
+	label.TextStrokeTransparency = 0.8
+	label.Font = Enum.Font.GothamBold
+	label.TextScaled = true
+	label.Text = message
+	label.Parent = screenGui
 
-ESPButton.Name = "ESPButton"
-ESPButton.Parent = MainFrame
-ESPButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-ESPButton.BackgroundTransparency = 0.500
-ESPButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
-ESPButton.BorderSizePixel = 0
-ESPButton.Position = UDim2.new(0.379163086, 0, 0.149756625, 0)
-ESPButton.Size = UDim2.new(0.241999999, 0, 0.120999999, 0)
-ESPButton.Font = Enum.Font.FredokaOne
-ESPButton.Text = "ESP"
-ESPButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-ESPButton.TextScaled = true
-ESPButton.TextSize = 14.000
-ESPButton.TextWrapped = true
+	local corner = Instance.new("UICorner")
+	corner.CornerRadius = UDim.new(0, 8)
+	corner.Parent = label
 
-UICorner_2.Parent = ESPButton
+	local padding = Instance.new("UIPadding")
+	padding.PaddingBottom = UDim.new(0, 5)
+	padding.PaddingTop = UDim.new(0, 5)
+	padding.Parent = label
 
-FLYButton.Name = "FLYButton"
-FLYButton.Parent = MainFrame
-FLYButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-FLYButton.BackgroundTransparency = 0.500
-FLYButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
-FLYButton.BorderSizePixel = 0
-FLYButton.Position = UDim2.new(0.0668462366, 0, 0.149756625, 0)
-FLYButton.Size = UDim2.new(0.241999999, 0, 0.120999999, 0)
-FLYButton.Font = Enum.Font.FredokaOne
-FLYButton.Text = "FLY [DONT WORK PROPERALLY]"
-FLYButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-FLYButton.TextScaled = true
-FLYButton.TextSize = 14.000
-FLYButton.TextWrapped = true
+	local sound = Instance.new("Sound")
+	sound.SoundId = "rbxassetid://9118820863"
+	sound.Volume = 0.5
+	sound.Parent = label
+	sound:Play()
 
-UICorner_3.Parent = FLYButton
+	local tweenIn = TweenService:Create(label, TweenInfo.new(0.4, Enum.EasingStyle.Back), {
+		Position = UDim2.new(0.5, -150, 0.05, 0)
+	})
+	tweenIn:Play()
 
-TextLabel.Parent = MainFrame
-TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel.BackgroundTransparency = 0.700
-TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
-TextLabel.BorderSizePixel = 0
-TextLabel.Position = UDim2.new(-1.62999044e-07, 0, 0.753766, 0)
-TextLabel.Size = UDim2.new(0.999999404, 0, 0.0652066618, 0)
-TextLabel.Font = Enum.Font.Unknown
-TextLabel.Text = "KENZIE'S CHEAT"
-TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel.TextScaled = true
-TextLabel.TextSize = 14.000
-TextLabel.TextWrapped = true
-
-UICorner_4.CornerRadius = UDim.new(0, 5)
-UICorner_4.Parent = TextLabel
-
-INFJUMPButton.Name = "INFJUMPButton"
-INFJUMPButton.Parent = MainFrame
-INFJUMPButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-INFJUMPButton.BackgroundTransparency = 0.500
-INFJUMPButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
-INFJUMPButton.BorderSizePixel = 0
-INFJUMPButton.Position = UDim2.new(0.681531429, 0, 0.149756625, 0)
-INFJUMPButton.Size = UDim2.new(0.242021278, 0, 0.12077295, 0)
-INFJUMPButton.Font = Enum.Font.FredokaOne
-INFJUMPButton.Text = "INFINITE JUMP"
-INFJUMPButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-INFJUMPButton.TextScaled = true
-INFJUMPButton.TextSize = 23.000
-INFJUMPButton.TextWrapped = true
-
-UICorner_5.Parent = INFJUMPButton
-
-NOCLIPButton.Name = "NOCLIPButton"
-NOCLIPButton.Parent = MainFrame
-NOCLIPButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-NOCLIPButton.BackgroundTransparency = 0.500
-NOCLIPButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
-NOCLIPButton.BorderSizePixel = 0
-NOCLIPButton.Position = UDim2.new(0.0691876709, 0, 0.299544066, 0)
-NOCLIPButton.Size = UDim2.new(0.242021278, 0, 0.12077295, 0)
-NOCLIPButton.Font = Enum.Font.FredokaOne
-NOCLIPButton.Text = "NO CLIP"
-NOCLIPButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-NOCLIPButton.TextSize = 24.000
-NOCLIPButton.TextWrapped = true
-
-UICorner_6.Parent = NOCLIPButton
-
-TextLabel_2.Parent = MainFrame
-TextLabel_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel_2.BackgroundTransparency = 0.700
-TextLabel_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
-TextLabel_2.BorderSizePixel = 0
-TextLabel_2.Position = UDim2.new(-1.62999044e-07, 0, 0.841568947, 0)
-TextLabel_2.Size = UDim2.new(0.99999994, 0, 0.158431008, 0)
-TextLabel_2.Font = Enum.Font.Unknown
-TextLabel_2.Text = "JOIN MY COMMUNITY SERVER FOR UPDATES FOR THIS SCRIPT AND DIFFERENT CHEATS! discord.gg/hHWSJZF2Bp"
-TextLabel_2.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel_2.TextScaled = true
-TextLabel_2.TextSize = 14.000
-TextLabel_2.TextWrapped = true
-
-UICorner_7.CornerRadius = UDim.new(0, 12)
-UICorner_7.Parent = TextLabel_2
-
-PLAYERPOSITIONLabel.Name = "PLAYERPOSITIONLabel"
-PLAYERPOSITIONLabel.Parent = MainFrame
-PLAYERPOSITIONLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-PLAYERPOSITIONLabel.BackgroundTransparency = 0.500
-PLAYERPOSITIONLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
-PLAYERPOSITIONLabel.BorderSizePixel = 0
-PLAYERPOSITIONLabel.Position = UDim2.new(0, 0, 0.659229636, 0)
-PLAYERPOSITIONLabel.Size = UDim2.new(0.999999702, 0, 0.0751858354, 0)
-PLAYERPOSITIONLabel.Font = Enum.Font.FredokaOne
-PLAYERPOSITIONLabel.Text = ""
-PLAYERPOSITIONLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-PLAYERPOSITIONLabel.TextScaled = true
-PLAYERPOSITIONLabel.TextSize = 14.000
-PLAYERPOSITIONLabel.TextWrapped = true
-
-UICorner_8.Parent = PLAYERPOSITIONLabel
-
-INVISIBLEButton.Name = "INVISIBLEButton"
-INVISIBLEButton.Parent = MainFrame
-INVISIBLEButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-INVISIBLEButton.BackgroundTransparency = 0.500
-INVISIBLEButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
-INVISIBLEButton.BorderSizePixel = 0
-INVISIBLEButton.Position = UDim2.new(0.065790154, 0, 0.439667761, 0)
-INVISIBLEButton.Size = UDim2.new(0.241999999, 0, 0.120999999, 0)
-INVISIBLEButton.Font = Enum.Font.FredokaOne
-INVISIBLEButton.Text = "INVISIBLE"
-INVISIBLEButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-INVISIBLEButton.TextScaled = true
-INVISIBLEButton.TextSize = 14.000
-INVISIBLEButton.TextWrapped = true
-
-UICorner_9.Parent = INVISIBLEButton
-
-GODMODEButton.Name = "GODMODEButton"
-GODMODEButton.Parent = MainFrame
-GODMODEButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-GODMODEButton.BackgroundTransparency = 0.500
-GODMODEButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
-GODMODEButton.BorderSizePixel = 0
-GODMODEButton.Position = UDim2.new(0.373261929, 0, 0.439667761, 0)
-GODMODEButton.Size = UDim2.new(0.241999999, 0, 0.120999999, 0)
-GODMODEButton.Font = Enum.Font.FredokaOne
-GODMODEButton.Text = "GOD MODE"
-GODMODEButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-GODMODEButton.TextScaled = true
-GODMODEButton.TextSize = 24.000
-GODMODEButton.TextWrapped = true
-
-UICorner_10.Parent = GODMODEButton
-
-GOTOPLAYERBox.Name = "GOTOPLAYERBox"
-GOTOPLAYERBox.Parent = MainFrame
-GOTOPLAYERBox.AnchorPoint = Vector2.new(0.5, 0)
-GOTOPLAYERBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-GOTOPLAYERBox.BackgroundTransparency = 0.500
-GOTOPLAYERBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
-GOTOPLAYERBox.BorderSizePixel = 0
-GOTOPLAYERBox.Position = UDim2.new(0.801285326, 0, 0.437663674, 0)
-GOTOPLAYERBox.Size = UDim2.new(0.241999999, 0, 0.120999999, 0)
-GOTOPLAYERBox.ClearTextOnFocus = false
-GOTOPLAYERBox.Font = Enum.Font.FredokaOne
-GOTOPLAYERBox.PlaceholderColor3 = Color3.fromRGB(255, 255, 255)
-GOTOPLAYERBox.PlaceholderText = "GOTO PLAYER:"
-GOTOPLAYERBox.Text = ""
-GOTOPLAYERBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-GOTOPLAYERBox.TextScaled = true
-GOTOPLAYERBox.TextSize = 14.000
-GOTOPLAYERBox.TextWrapped = true
-
-UICorner_11.CornerRadius = UDim.new(0, 12)
-UICorner_11.Parent = GOTOPLAYERBox
-
-UIPadding.Parent = GOTOPLAYERBox
-UIPadding.PaddingLeft = UDim.new(0, 12)
-UIPadding.PaddingRight = UDim.new(0, 12)
-
-JUMPPOWERBox.Name = "JUMPPOWERBox"
-JUMPPOWERBox.Parent = MainFrame
-JUMPPOWERBox.AnchorPoint = Vector2.new(0.5, 0)
-JUMPPOWERBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-JUMPPOWERBox.BackgroundTransparency = 0.500
-JUMPPOWERBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
-JUMPPOWERBox.BorderSizePixel = 0
-JUMPPOWERBox.Position = UDim2.new(0.798619628, 0, 0.295124054, 0)
-JUMPPOWERBox.Size = UDim2.new(0.241999999, 0, 0.120999999, 0)
-JUMPPOWERBox.ClearTextOnFocus = false
-JUMPPOWERBox.Font = Enum.Font.FredokaOne
-JUMPPOWERBox.PlaceholderColor3 = Color3.fromRGB(255, 255, 255)
-JUMPPOWERBox.PlaceholderText = "JUMP POWER:"
-JUMPPOWERBox.Text = ""
-JUMPPOWERBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-JUMPPOWERBox.TextScaled = true
-JUMPPOWERBox.TextSize = 14.000
-JUMPPOWERBox.TextWrapped = true
-
-UICorner_12.CornerRadius = UDim.new(0, 12)
-UICorner_12.Parent = JUMPPOWERBox
-
-UIPadding_2.Parent = JUMPPOWERBox
-UIPadding_2.PaddingLeft = UDim.new(0, 12)
-UIPadding_2.PaddingRight = UDim.new(0, 12)
-
-WALKSPEEDBox.Name = "WALKSPEEDBox"
-WALKSPEEDBox.Parent = MainFrame
-WALKSPEEDBox.AnchorPoint = Vector2.new(0.5, 0)
-WALKSPEEDBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-WALKSPEEDBox.BackgroundTransparency = 0.500
-WALKSPEEDBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
-WALKSPEEDBox.BorderSizePixel = 0
-WALKSPEEDBox.Position = UDim2.new(0.494736344, 0, 0.295124054, 0)
-WALKSPEEDBox.Size = UDim2.new(0.241999999, 0, 0.120999999, 0)
-WALKSPEEDBox.ClearTextOnFocus = false
-WALKSPEEDBox.Font = Enum.Font.FredokaOne
-WALKSPEEDBox.PlaceholderColor3 = Color3.fromRGB(255, 255, 255)
-WALKSPEEDBox.PlaceholderText = "WALK SPEED:"
-WALKSPEEDBox.Text = ""
-WALKSPEEDBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-WALKSPEEDBox.TextScaled = true
-WALKSPEEDBox.TextSize = 14.000
-WALKSPEEDBox.TextWrapped = true
-
-UICorner_13.CornerRadius = UDim.new(0, 12)
-UICorner_13.Parent = WALKSPEEDBox
-
-UIPadding_3.Parent = WALKSPEEDBox
-UIPadding_3.PaddingLeft = UDim.new(0, 12)
-UIPadding_3.PaddingRight = UDim.new(0, 12)
-
-FLINGPLAYERBox.Name = "FLINGPLAYERBox"
-FLINGPLAYERBox.Parent = MainFrame
-FLINGPLAYERBox.AnchorPoint = Vector2.new(0.5, 0)
-FLINGPLAYERBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-FLINGPLAYERBox.BackgroundTransparency = 0.500
-FLINGPLAYERBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
-FLINGPLAYERBox.BorderSizePixel = 0
-FLINGPLAYERBox.Position = UDim2.new(0.493403733, 0, 0.570539594, 0)
-FLINGPLAYERBox.Size = UDim2.new(0.852432311, 0, 0.0723003894, 0)
-FLINGPLAYERBox.ClearTextOnFocus = false
-FLINGPLAYERBox.Font = Enum.Font.FredokaOne
-FLINGPLAYERBox.PlaceholderColor3 = Color3.fromRGB(255, 255, 255)
-FLINGPLAYERBox.PlaceholderText = "FLING PLAYER:"
-FLINGPLAYERBox.Text = ""
-FLINGPLAYERBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-FLINGPLAYERBox.TextScaled = true
-FLINGPLAYERBox.TextSize = 14.000
-FLINGPLAYERBox.TextWrapped = true
-
-UICorner_14.CornerRadius = UDim.new(0, 12)
-UICorner_14.Parent = FLINGPLAYERBox
-
-UIPadding_4.Parent = FLINGPLAYERBox
-UIPadding_4.PaddingLeft = UDim.new(0, 12)
-UIPadding_4.PaddingRight = UDim.new(0, 12)
-
-CloseFrame.Name = "CloseFrame"
-CloseFrame.Parent = MainFrame
-CloseFrame.BackgroundColor3 = Color3.fromRGB(255, 146, 146)
-CloseFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
-CloseFrame.BorderSizePixel = 0
-CloseFrame.Position = UDim2.new(0.973240852, 0, -0.0398772992, 0)
-CloseFrame.Size = UDim2.new(0.0545094162, 0, 0.0843558311, 0)
-CloseFrame.Font = Enum.Font.Unknown
-CloseFrame.Text = "X"
-CloseFrame.TextColor3 = Color3.fromRGB(255, 255, 255)
-CloseFrame.TextScaled = true
-CloseFrame.TextSize = 14.000
-CloseFrame.TextWrapped = true
-
-UICorner_15.CornerRadius = UDim.new(0, 13)
-UICorner_15.Parent = CloseFrame
-
-TextLabel_3.Parent = MainFrame
-TextLabel_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel_3.BackgroundTransparency = 0.700
-TextLabel_3.BorderColor3 = Color3.fromRGB(0, 0, 0)
-TextLabel_3.BorderSizePixel = 0
-TextLabel_3.Position = UDim2.new(0.0106821423, 0, 0.0298178252, 0)
-TextLabel_3.Size = UDim2.new(0.962558687, 0, 0.105280638, 0)
-TextLabel_3.Font = Enum.Font.Unknown
-TextLabel_3.Text = "USERNAME:"
-TextLabel_3.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel_3.TextScaled = true
-TextLabel_3.TextSize = 14.000
-TextLabel_3.TextWrapped = true
-
-UICorner_16.CornerRadius = UDim.new(0, 12)
-UICorner_16.Parent = TextLabel_3
-
-ChatFrame.Name = "ChatFrame"
-ChatFrame.Parent = MainFrame
-ChatFrame.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
-ChatFrame.BackgroundTransparency = 0.150
-ChatFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
-ChatFrame.BorderSizePixel = 0
-ChatFrame.Position = UDim2.new(-0.558150589, 0, -3.68641047e-08, 0)
-ChatFrame.Size = UDim2.new(0, 202, 0, 412)
-
-UICorner_17.CornerRadius = UDim.new(0, 11)
-UICorner_17.Parent = ChatFrame
-
-ChatInput.Name = "ChatInput"
-ChatInput.Parent = ChatFrame
-ChatInput.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
-ChatInput.BackgroundTransparency = 0.150
-ChatInput.BorderColor3 = Color3.fromRGB(0, 0, 0)
-ChatInput.BorderSizePixel = 0
-ChatInput.Position = UDim2.new(0.00495049497, 0, 0.936893225, 0)
-ChatInput.Size = UDim2.new(0, 173, 0, 27)
-ChatInput.ClearTextOnFocus = false
-ChatInput.Font = Enum.Font.Unknown
-ChatInput.PlaceholderColor3 = Color3.fromRGB(255, 255, 255)
-ChatInput.Text = "type here.."
-ChatInput.TextColor3 = Color3.fromRGB(255, 255, 255)
-ChatInput.TextScaled = true
-ChatInput.TextSize = 14.000
-ChatInput.TextWrapped = true
-
-UICorner_18.CornerRadius = UDim.new(0, 12)
-UICorner_18.Parent = ChatInput
-
-SendButton.Name = "SendButton"
-SendButton.Parent = ChatFrame
-SendButton.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
-SendButton.BackgroundTransparency = 0.150
-SendButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
-SendButton.BorderSizePixel = 0
-SendButton.Position = UDim2.new(0.891089082, 0, 0.936893225, 0)
-SendButton.Size = UDim2.new(0, 20, 0, 26)
-SendButton.Font = Enum.Font.FredokaOne
-SendButton.Text = ">"
-SendButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-SendButton.TextScaled = true
-SendButton.TextSize = 6.000
-SendButton.TextWrapped = true
-
-UICorner_19.CornerRadius = UDim.new(0, 12)
-UICorner_19.Parent = SendButton
-
-ChatDisplay.Name = "ChatDisplay"
-ChatDisplay.Parent = ChatFrame
-ChatDisplay.Active = true
-ChatDisplay.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-ChatDisplay.BackgroundTransparency = 1.000
-ChatDisplay.BorderColor3 = Color3.fromRGB(0, 0, 0)
-ChatDisplay.BorderSizePixel = 0
-ChatDisplay.Position = UDim2.new(0, 0, 0.0606796481, 0)
-ChatDisplay.Size = UDim2.new(0, 202, 0, 354)
-
-UIListLayout.Parent = ChatDisplay
-UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-UIListLayout.Padding = UDim.new(0, 2)
-
-ClearChatButton.Name = "ClearChatButton"
-ClearChatButton.Parent = ChatFrame
-ClearChatButton.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
-ClearChatButton.BackgroundTransparency = 0.150
-ClearChatButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
-ClearChatButton.BorderSizePixel = 0
-ClearChatButton.Position = UDim2.new(0.00495049497, 0, 0, 0)
-ClearChatButton.Size = UDim2.new(0, 199, 0, 18)
-ClearChatButton.Font = Enum.Font.Unknown
-ClearChatButton.Text = "Clear Chat"
-ClearChatButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-ClearChatButton.TextScaled = true
-ClearChatButton.TextSize = 6.000
-ClearChatButton.TextWrapped = true
-
-UICorner_20.CornerRadius = UDim.new(0, 12)
-UICorner_20.Parent = ClearChatButton
-
-OpenFrame.Name = "OpenFrame"
-OpenFrame.Parent = KenziesCheat
-OpenFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-OpenFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
-OpenFrame.BorderSizePixel = 0
-OpenFrame.Position = UDim2.new(0.0105960267, 0, 0.458471775, 0)
-OpenFrame.Size = UDim2.new(0.0496688746, 0, 0.0830564797, 0)
-OpenFrame.Font = Enum.Font.SourceSans
-OpenFrame.Text = " "
-OpenFrame.TextColor3 = Color3.fromRGB(0, 0, 0)
-OpenFrame.TextSize = 14.000
-
-QuestImage.Name = "QuestImage"
-QuestImage.Parent = OpenFrame
-QuestImage.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-QuestImage.BackgroundTransparency = 1.000
-QuestImage.BorderColor3 = Color3.fromRGB(27, 42, 53)
-QuestImage.Position = UDim2.new(-0.00719991047, 0, 0.0399999991, 0)
-QuestImage.Size = UDim2.new(1, 0, 0.906666696, 0)
-QuestImage.Image = "rbxassetid://110359595085488"
-
-UICorner_21.CornerRadius = UDim.new(0, 13)
-UICorner_21.Parent = OpenFrame
-
--- Scripts:
-
-local function MHVILHQ_fake_script() -- ESPButton.LocalScript 
-	local script = Instance.new('LocalScript', ESPButton)
-
-	local player = game.Players.LocalPlayer
-	local button = script.Parent
-	local espEnabled = false
-	local espObjects = {}
-	local TweenService = game:GetService("TweenService")
-	
-	-- Notifier UI with slide + pop sound
-	local function showNotifier(message)
-		local playerGui = player:WaitForChild("PlayerGui")
-		local existing = playerGui:FindFirstChild("ESPNotifier")
-	
-		if existing then
-			existing:Destroy()
-		end
-	
-		-- ScreenGui
-		local screenGui = Instance.new("ScreenGui")
-		screenGui.Name = "ESPNotifier"
-		screenGui.ResetOnSpawn = false
-		screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-		screenGui.Parent = playerGui
-	
-		-- TextLabel
-		local textLabel = Instance.new("TextLabel")
-		textLabel.Name = "Label"
-		textLabel.Size = UDim2.new(0, 300, 0, 50)
-		textLabel.Position = UDim2.new(0.5, -150, -0.1, 0) -- start above screen
-		textLabel.AnchorPoint = Vector2.new(0.5, 0)
-		textLabel.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-		textLabel.BackgroundTransparency = 0.3
-		textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-		textLabel.TextStrokeTransparency = 0.5
-		textLabel.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
-		textLabel.Font = Enum.Font.GothamBold
-		textLabel.TextScaled = true
-		textLabel.Text = message
-		textLabel.ZIndex = 1000
-		textLabel.Parent = screenGui
-	
-		-- Rounded corners
-		local corner = Instance.new("UICorner")
-		corner.CornerRadius = UDim.new(0, 12)
-		corner.Parent = textLabel
-	
-		-- Max font size
-		local constraint = Instance.new("UITextSizeConstraint")
-		constraint.MaxTextSize = 32
-		constraint.Parent = textLabel
-	
-		-- Pop sound
-		local sound = Instance.new("Sound")
-		sound.SoundId = "rbxassetid://9118820863" -- small pop sound
-		sound.Volume = 0.5
-		sound.Parent = textLabel
-		sound:Play()
-	
-		-- Slide in
-		local tweenIn = TweenService:Create(textLabel, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
-			Position = UDim2.new(0.5, -150, 0.05, 0),
-			TextTransparency = 0
+	task.delay(2, function()
+		local tweenOut = TweenService:Create(label, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
+			Position = UDim2.new(0.5, -150, -0.1, 0)
 		})
-		tweenIn:Play()
-	
-		-- Wait then slide out
-		task.delay(2, function()
-			local tweenOut = TweenService:Create(textLabel, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
-				Position = UDim2.new(0.5, -150, -0.1, 0),
-				TextTransparency = 1
-			})
-			tweenOut:Play()
-			tweenOut.Completed:Wait()
-			if screenGui then
-				screenGui:Destroy()
+		tweenOut:Play()
+		tweenOut.Completed:Wait()
+		screenGui:Destroy()
+	end)
+end
+
+local MainFrame = Instance.new("Frame")
+MainFrame.Name = "MainFrame"
+MainFrame.Size = UDim2.new(0, 450, 0, 350)
+MainFrame.Position = UDim2.new(0.5, -225, 0.5, -175)
+MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+MainFrame.BorderSizePixel = 0
+MainFrame.Parent = KiyHub
+
+local MainCorner = Instance.new("UICorner")
+MainCorner.CornerRadius = UDim.new(0, 10)
+MainCorner.Parent = MainFrame
+
+local TopBar = Instance.new("Frame")
+TopBar.Size = UDim2.new(1, 0, 0, 40)
+TopBar.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
+TopBar.Parent = MainFrame
+
+local TopCorner = Instance.new("UICorner")
+TopCorner.CornerRadius = UDim.new(0, 10)
+TopCorner.Parent = TopBar
+
+local TopHider = Instance.new("Frame")
+TopHider.Size = UDim2.new(1, 0, 0, 10)
+TopHider.Position = UDim2.new(0, 0, 1, -10)
+TopHider.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
+TopHider.BorderSizePixel = 0
+TopHider.Parent = TopBar
+
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, -50, 1, 0)
+Title.Position = UDim2.new(0, 15, 0, 0)
+Title.BackgroundTransparency = 1
+Title.Text = "KIY HUB | PREMIUM"
+Title.TextColor3 = Color3.fromRGB(0, 255, 200)
+Title.Font = Enum.Font.GothamBlack
+Title.TextSize = 18
+Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.Parent = TopBar
+
+local dragging
+local dragInput
+local dragStart
+local startPos
+
+local function update(input)
+	local delta = input.Position - dragStart
+	MainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+end
+
+TopBar.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+		dragging = true
+		dragStart = input.Position
+		startPos = MainFrame.Position
+		input.Changed:Connect(function()
+			if input.UserInputState == Enum.UserInputState.End then
+				dragging = false
 			end
 		end)
 	end
-	
-	-- Create ESP BillboardGui for a humanoid
-	local function createESP(humanoid)
-		local character = humanoid.Parent
-		if not character or not character:IsA("Model") or not character:FindFirstChild("Head") then return end
-		if espObjects[character] then return end
-	
-		local billboard = Instance.new("BillboardGui")
-		billboard.Name = "ESP"
-		billboard.Size = UDim2.new(0, 100, 0, 20)
-		billboard.AlwaysOnTop = true
-		billboard.Adornee = character:FindFirstChild("Head")
-	
-		local label = Instance.new("TextLabel")
-		label.Size = UDim2.new(1, 0, 1, 0)
-		label.BackgroundTransparency = 1
-		label.TextColor3 = Color3.new(1, 0, 0)
-		label.TextScaled = true
-		label.Text = character.Name
-		label.Font = Enum.Font.SourceSansBold
-		label.Parent = billboard
-	
-		billboard.Parent = character
-		espObjects[character] = billboard
+end)
+
+TopBar.InputChanged:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+		dragInput = input
 	end
-	
-	-- Remove all ESPs
-	local function removeAllESP()
-		for character, gui in pairs(espObjects) do
-			if gui and gui.Parent then
-				gui:Destroy()
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+	if input == dragInput and dragging then
+		update(input)
+	end
+end)
+
+local ScrollFrame = Instance.new("ScrollingFrame")
+ScrollFrame.Size = UDim2.new(1, -20, 1, -60)
+ScrollFrame.Position = UDim2.new(0, 10, 0, 50)
+ScrollFrame.BackgroundTransparency = 1
+ScrollFrame.ScrollBarThickness = 4
+ScrollFrame.Parent = MainFrame
+
+local GridLayout = Instance.new("UIGridLayout")
+GridLayout.CellSize = UDim2.new(0.48, 0, 0, 40)
+GridLayout.CellPadding = UDim2.new(0.04, 0, 0, 10)
+GridLayout.Parent = ScrollFrame
+
+local function createButton(name, text, callback)
+	local btn = Instance.new("TextButton")
+	btn.Name = name
+	btn.Text = text
+	btn.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
+	btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+	btn.Font = Enum.Font.GothamBold
+	btn.TextSize = 14
+	btn.Parent = ScrollFrame
+
+	local corner = Instance.new("UICorner")
+	corner.CornerRadius = UDim.new(0, 6)
+	corner.Parent = btn
+
+	btn.MouseEnter:Connect(function()
+		TweenService:Create(btn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(60, 60, 70)}):Play()
+	end)
+	btn.MouseLeave:Connect(function()
+		TweenService:Create(btn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(40, 40, 45)}):Play()
+	end)
+
+	btn.MouseButton1Click:Connect(callback)
+	return btn
+end
+
+local function createTextBox(name, placeholder, callback)
+	local box = Instance.new("TextBox")
+	box.Name = name
+	box.PlaceholderText = placeholder
+	box.Text = ""
+	box.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
+	box.TextColor3 = Color3.fromRGB(0, 255, 200)
+	box.Font = Enum.Font.Gotham
+	box.TextSize = 14
+	box.Parent = ScrollFrame
+
+	local corner = Instance.new("UICorner")
+	corner.CornerRadius = UDim.new(0, 6)
+	corner.Parent = box
+
+	local border = Instance.new("UIStroke")
+	border.Color = Color3.fromRGB(60, 60, 70)
+	border.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	border.Parent = box
+
+	box.FocusLost:Connect(function(enterPressed)
+		if enterPressed and box.Text ~= "" then
+			callback(box.Text)
+			box.Text = ""
+		end
+	end)
+	return box
+end
+
+local espEnabled = false
+local espObjects = {}
+
+createButton("ESPBtn", "Toggle ESP", function()
+	espEnabled = not espEnabled
+	if espEnabled then
+		for _, obj in ipairs(workspace:GetDescendants()) do
+			if obj:IsA("Humanoid") and obj.Parent ~= player.Character then
+				local hl = Instance.new("Highlight")
+				hl.Adornee = obj.Parent
+				hl.FillColor = Color3.fromRGB(255, 0, 0)
+				hl.OutlineColor = Color3.fromRGB(255, 255, 255)
+				hl.Parent = obj.Parent
+				table.insert(espObjects, hl)
 			end
+		end
+		showNotifier("ESP Activated")
+	else
+		for _, hl in pairs(espObjects) do
+			if hl and hl.Parent then hl:Destroy() end
 		end
 		espObjects = {}
+		showNotifier("ESP Deactivated")
 	end
-	
-	-- Toggle ESP
-	local function toggleESP()
-		espEnabled = not espEnabled
-	
-		if espEnabled then
-			for _, obj in ipairs(workspace:GetDescendants()) do
-				if obj:IsA("Humanoid") and obj.Parent ~= player.Character then
-					createESP(obj)
-				end
-			end
-	
-			-- Listen for new humanoids added
-			workspace.DescendantAdded:Connect(function(obj)
-				if espEnabled and obj:IsA("Humanoid") and obj.Parent ~= player.Character then
-					createESP(obj)
-				end
-			end)
-	
-			showNotifier("ESP Enabled")
-		else
-			removeAllESP()
-			showNotifier("ESP Disabled")
-		end
-	end
-	
-	-- Button click
-	button.MouseButton1Click:Connect(toggleESP)
-	
-end
-coroutine.wrap(MHVILHQ_fake_script)()
-local function TNOD_fake_script() -- FLYButton.LocalScript 
-	local script = Instance.new('LocalScript', FLYButton)
+end)
 
-	local TweenService = game:GetService("TweenService")
-	local button = script.Parent
-	local player = game.Players.LocalPlayer
-	local uis = game:GetService("UserInputService")
-	local runService = game:GetService("RunService")
-	
-	local flying = false
-	local speed = 50
-	local velocityVector = Vector3.new(0,0,0)
-	local moveDirection = Vector3.new(0,0,0)
-	local bodyVelocity
-	
-	-- Function to show notifier (slide + pop sound)
-	local function showNotifier(message)
-		local playerGui = player:WaitForChild("PlayerGui")
-		local existing = playerGui:FindFirstChild("FlyNotifier")
-		if existing then existing:Destroy() end
-	
-		local screenGui = Instance.new("ScreenGui")
-		screenGui.Name = "FlyNotifier"
-		screenGui.ResetOnSpawn = false
-		screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-		screenGui.Parent = playerGui
-	
-		local label = Instance.new("TextLabel")
-		label.Size = UDim2.new(0, 300, 0, 50)
-		label.Position = UDim2.new(0.5, -150, -0.1, 0) -- start above screen
-		label.AnchorPoint = Vector2.new(0.5, 0)
-		label.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-		label.BackgroundTransparency = 0.3
-		label.TextColor3 = Color3.new(1, 1, 1)
-		label.TextStrokeTransparency = 0.5
-		label.TextStrokeColor3 = Color3.new(0, 0, 0)
-		label.Text = message
-		label.Font = Enum.Font.GothamBold
-		label.TextScaled = true
-		label.ZIndex = 999
-		label.Parent = screenGui
-	
-		local corner = Instance.new("UICorner")
-		corner.CornerRadius = UDim.new(0, 12)
-		corner.Parent = label
-	
-		local constraint = Instance.new("UITextSizeConstraint")
-		constraint.MaxTextSize = 32
-		constraint.Parent = label
-	
-		-- Pop sound
-		local sound = Instance.new("Sound")
-		sound.SoundId = "rbxassetid://9118820863" -- small pop sound
-		sound.Volume = 0.5
-		sound.Parent = label
-		sound:Play()
-	
-		-- Slide in
-		local tweenIn = TweenService:Create(label, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
-			Position = UDim2.new(0.5, -150, 0.05, 0),
-			TextTransparency = 0
-		})
-		tweenIn:Play()
-	
-		-- Wait then slide out
-		task.delay(2, function()
-			local tweenOut = TweenService:Create(label, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
-				Position = UDim2.new(0.5, -150, -0.1, 0),
-				TextTransparency = 1
-			})
-			tweenOut:Play()
-			tweenOut.Completed:Wait()
-			screenGui:Destroy()
-		end)
+local flying = false
+local bodyVel
+createButton("FlyBtn", "Toggle Fly", function()
+	flying = not flying
+	local char = player.Character
+	if flying and char and char:FindFirstChild("HumanoidRootPart") then
+		bodyVel = Instance.new("BodyVelocity")
+		bodyVel.MaxForce = Vector3.new(9e9, 9e9, 9e9)
+		bodyVel.Parent = char.HumanoidRootPart
+		showNotifier("Fly Activated (Use WASD)")
+	else
+		if bodyVel then bodyVel:Destroy() end
+		showNotifier("Fly Deactivated")
 	end
-	
-	-- Toggle flying when button is clicked
-	button.MouseButton1Click:Connect(function()
-		if flying then
-			flying = false
-			if bodyVelocity then
-				bodyVelocity:Destroy()
-				bodyVelocity = nil
-			end
-			showNotifier("Flying Disabled")
-		else
-			flying = true
-			local character = player.Character or player.CharacterAdded:Wait()
-			local hrp = character:WaitForChild("HumanoidRootPart")
-	
-			bodyVelocity = Instance.new("BodyVelocity")
-			bodyVelocity.MaxForce = Vector3.new(1e5, 1e5, 1e5)
-			bodyVelocity.Velocity = Vector3.new(0,0,0)
-			bodyVelocity.Parent = hrp
-			showNotifier("Flying Enabled")
-		end
-	end)
-	
-	-- Movement controls
-	uis.InputBegan:Connect(function(input, gameProcessed)
-		if gameProcessed then return end
-		if input.KeyCode == Enum.KeyCode.W then moveDirection = moveDirection + Vector3.new(0,0,-1)
-		elseif input.KeyCode == Enum.KeyCode.S then moveDirection = moveDirection + Vector3.new(0,0,1)
-		elseif input.KeyCode == Enum.KeyCode.A then moveDirection = moveDirection + Vector3.new(-1,0,0)
-		elseif input.KeyCode == Enum.KeyCode.D then moveDirection = moveDirection + Vector3.new(1,0,0)
-		elseif input.KeyCode == Enum.KeyCode.Space then moveDirection = moveDirection + Vector3.new(0,1,0)
-		elseif input.KeyCode == Enum.KeyCode.LeftShift then moveDirection = moveDirection + Vector3.new(0,-1,0) end
-	end)
-	
-	uis.InputEnded:Connect(function(input, gameProcessed)
-		if input.KeyCode == Enum.KeyCode.W then moveDirection = moveDirection - Vector3.new(0,0,-1)
-		elseif input.KeyCode == Enum.KeyCode.S then moveDirection = moveDirection - Vector3.new(0,0,1)
-		elseif input.KeyCode == Enum.KeyCode.A then moveDirection = moveDirection - Vector3.new(-1,0,0)
-		elseif input.KeyCode == Enum.KeyCode.D then moveDirection = moveDirection - Vector3.new(1,0,0)
-		elseif input.KeyCode == Enum.KeyCode.Space then moveDirection = moveDirection - Vector3.new(0,1,0)
-		elseif input.KeyCode == Enum.KeyCode.LeftShift then moveDirection = moveDirection - Vector3.new(0,-1,0) end
-	end)
-	
-	-- Update loop
-	runService.RenderStepped:Connect(function()
-		if flying and bodyVelocity and player.Character then
-			local hrp = player.Character:FindFirstChild("HumanoidRootPart")
-			if hrp then
-				local cam = workspace.CurrentCamera
-				local forward = Vector3.new(cam.CFrame.LookVector.X, 0, cam.CFrame.LookVector.Z).Unit
-				local right = Vector3.new(cam.CFrame.RightVector.X, 0, cam.CFrame.RightVector.Z).Unit
-				local up = Vector3.new(0,1,0)
-	
-				velocityVector = (forward * moveDirection.Z + right * moveDirection.X + up * moveDirection.Y) * speed
-				bodyVelocity.Velocity = velocityVector
-			end
-		end
-	end)
-	
-end
-coroutine.wrap(TNOD_fake_script)()
-local function EPFSB_fake_script() -- INFJUMPButton.LocalScript 
-	local script = Instance.new('LocalScript', INFJUMPButton)
+end)
 
-	-- LocalScript inside INFJUMPButton
-	
-	local UserInputService = game:GetService("UserInputService")
-	local TweenService = game:GetService("TweenService")
-	local player = game.Players.LocalPlayer
-	local button = script.Parent
-	
-	local infJumpEnabled = false
-	local jumpConnection
-	
-	-- Notifier UI with slide + pop sound
-	local function showNotifier(message)
-		local playerGui = player:WaitForChild("PlayerGui")
-		local existing = playerGui:FindFirstChild("JumpNotifier")
-	
-		if existing then
-			existing:Destroy()
-		end
-	
-		local screenGui = Instance.new("ScreenGui")
-		screenGui.Name = "JumpNotifier"
-		screenGui.ResetOnSpawn = false
-		screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-		screenGui.Parent = playerGui
-	
-		local label = Instance.new("TextLabel")
-		label.Name = "Label"
-		label.Size = UDim2.new(0, 300, 0, 50)
-		label.Position = UDim2.new(0.5, -150, -0.1, 0) -- start above screen
-		label.AnchorPoint = Vector2.new(0.5, 0)
-		label.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-		label.BackgroundTransparency = 0.3
-		label.TextColor3 = Color3.new(1, 1, 1)
-		label.TextStrokeTransparency = 0.5
-		label.TextStrokeColor3 = Color3.new(0, 0, 0)
-		label.Text = message
-		label.Font = Enum.Font.GothamBold
-		label.TextScaled = true
-		label.ZIndex = 999
-		label.Parent = screenGui
-	
-		local corner = Instance.new("UICorner")
-		corner.CornerRadius = UDim.new(0, 12)
-		corner.Parent = label
-	
-		local constraint = Instance.new("UITextSizeConstraint")
-		constraint.MaxTextSize = 32
-		constraint.Parent = label
-	
-		-- Pop sound
-		local sound = Instance.new("Sound")
-		sound.SoundId = "rbxassetid://9118820863" -- small pop sound
-		sound.Volume = 0.5
-		sound.Parent = label
-		sound:Play()
-	
-		-- Slide in
-		local tweenIn = TweenService:Create(label, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
-			Position = UDim2.new(0.5, -150, 0.05, 0),
-			TextTransparency = 0
-		})
-		tweenIn:Play()
-	
-		-- Wait then slide out
-		task.delay(2, function()
-			local tweenOut = TweenService:Create(label, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
-				Position = UDim2.new(0.5, -150, -0.1, 0),
-				TextTransparency = 1
-			})
-			tweenOut:Play()
-			tweenOut.Completed:Wait()
-			screenGui:Destroy()
-		end)
+local infJump = false
+UserInputService.JumpRequest:Connect(function()
+	if infJump and player.Character and player.Character:FindFirstChild("Humanoid") then
+		player.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
 	end
-	
-	-- Enable Infinite Jump
-	local function enableInfiniteJump()
-		jumpConnection = UserInputService.JumpRequest:Connect(function()
-			local char = player.Character
-			if char and char:FindFirstChild("Humanoid") then
-				char.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
-			end
-		end)
-		showNotifier("Infinite Jump Enabled")
-	end
-	
-	-- Disable Infinite Jump
-	local function disableInfiniteJump()
-		if jumpConnection then
-			jumpConnection:Disconnect()
-			jumpConnection = nil
-		end
-		showNotifier("Infinite Jump Disabled")
-	end
-	
-	-- Toggle function
-	local function toggleInfiniteJump()
-		infJumpEnabled = not infJumpEnabled
-		if infJumpEnabled then
-			enableInfiniteJump()
-		else
-			disableInfiniteJump()
-		end
-	end
-	
-	-- Connect the button
-	button.MouseButton1Click:Connect(toggleInfiniteJump)
-	
-end
-coroutine.wrap(EPFSB_fake_script)()
-local function IBWQD_fake_script() -- NOCLIPButton.LocalScript 
-	local script = Instance.new('LocalScript', NOCLIPButton)
+end)
 
-	-- LocalScript inside NOCLIPButton
-	
-	local player = game.Players.LocalPlayer
-	local button = script.Parent
-	local runService = game:GetService("RunService")
-	local tweenService = game:GetService("TweenService")
-	
-	local noclipEnabled = false
-	local noclipConnection
-	
-	-- Notifier UI with slide + pop sound
-	local function showNotifier(message)
-		local playerGui = player:WaitForChild("PlayerGui")
-		local existing = playerGui:FindFirstChild("NoclipNotifier")
-	
-		if existing then
-			existing:Destroy()
-		end
-	
-		local screenGui = Instance.new("ScreenGui")
-		screenGui.Name = "NoclipNotifier"
-		screenGui.ResetOnSpawn = false
-		screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-		screenGui.Parent = playerGui
-	
-		local label = Instance.new("TextLabel")
-		label.Name = "Label"
-		label.Size = UDim2.new(0, 300, 0, 50)
-		label.Position = UDim2.new(0.5, -150, -0.1, 0) -- start above screen
-		label.AnchorPoint = Vector2.new(0.5, 0)
-		label.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-		label.BackgroundTransparency = 0.3
-		label.TextColor3 = Color3.new(1, 1, 1)
-		label.TextStrokeTransparency = 0.5
-		label.TextStrokeColor3 = Color3.new(0, 0, 0)
-		label.Text = message
-		label.Font = Enum.Font.GothamBold
-		label.TextScaled = true
-		label.ZIndex = 999
-		label.Parent = screenGui
-	
-		local corner = Instance.new("UICorner")
-		corner.CornerRadius = UDim.new(0, 12)
-		corner.Parent = label
-	
-		local constraint = Instance.new("UITextSizeConstraint")
-		constraint.MaxTextSize = 32
-		constraint.Parent = label
-	
-		-- Pop sound
-		local sound = Instance.new("Sound")
-		sound.SoundId = "rbxassetid://9118820863" -- small pop sound
-		sound.Volume = 0.5
-		sound.Parent = label
-		sound:Play()
-	
-		-- Slide in
-		local tweenIn = tweenService:Create(label, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
-			Position = UDim2.new(0.5, -150, 0.05, 0),
-			TextTransparency = 0
-		})
-		tweenIn:Play()
-	
-		-- Wait then slide out
-		task.delay(2, function()
-			local tweenOut = tweenService:Create(label, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
-				Position = UDim2.new(0.5, -150, -0.1, 0),
-				TextTransparency = 1
-			})
-			tweenOut:Play()
-			tweenOut.Completed:Wait()
-			screenGui:Destroy()
-		end)
-	end
-	
-	-- Noclip logic
-	local function setCollision(enabled)
-		local character = player.Character
-		if not character then return end
-	
-		for _, part in pairs(character:GetDescendants()) do
-			if part:IsA("BasePart") and part.CanCollide ~= enabled then
-				part.CanCollide = enabled
-			end
-		end
-	end
-	
-	-- Start noclip
-	local function enableNoclip()
-		noclipConnection = runService.Stepped:Connect(function()
-			local character = player.Character
-			if character then
-				for _, part in pairs(character:GetDescendants()) do
-					if part:IsA("BasePart") then
-						part.CanCollide = false
-					end
-				end
-			end
-		end)
-		showNotifier("Noclip Enabled")
-	end
-	
-	-- Stop noclip
-	local function disableNoclip()
-		if noclipConnection then
-			noclipConnection:Disconnect()
-			noclipConnection = nil
-		end
-		setCollision(true)
-		showNotifier("Noclip Disabled")
-	end
-	
-	-- Toggle noclip
-	local function toggleNoclip()
-		noclipEnabled = not noclipEnabled
-		if noclipEnabled then
-			enableNoclip()
-		else
-			disableNoclip()
-		end
-	end
-	
-	-- Connect button
-	button.MouseButton1Click:Connect(toggleNoclip)
-	
-end
-coroutine.wrap(IBWQD_fake_script)()
-local function ZBRQX_fake_script() -- PLAYERPOSITIONLabel.LocalScript 
-	local script = Instance.new('LocalScript', PLAYERPOSITIONLabel)
+createButton("InfJumpBtn", "Infinite Jump", function()
+	infJump = not infJump
+	showNotifier(infJump and "Infinite Jump On" or "Infinite Jump Off")
+end)
 
-	
-	
-	local label = script.Parent      -- the TextLabel itself
-	local player = game.Players.LocalPlayer
-	local RunService = game:GetService("RunService")
-	
-	RunService.RenderStepped:Connect(function()
-		local character = player.Character or player.CharacterAdded:Wait()
-		local rootPart = character:FindFirstChild("HumanoidRootPart")
-	
-		if rootPart then
-			local pos = rootPart.Position
-			label.Text = string.format(
-				"Position:\nX: %.1f  Y: %.1f  Z: %.1f",
-				pos.X, pos.Y, pos.Z
-			)
-		else
-			label.Text = "Position: (loading...)"
+local noclip = false
+RunService.Stepped:Connect(function()
+	if noclip and player.Character then
+		for _, part in pairs(player.Character:GetDescendants()) do
+			if part:IsA("BasePart") then part.CanCollide = false end
 		end
-	end)
-	
-end
-coroutine.wrap(ZBRQX_fake_script)()
-local function OOPE_fake_script() -- INVISIBLEButton.LocalScript 
-	local script = Instance.new('LocalScript', INVISIBLEButton)
+	end
+end)
 
-	-- LocalScript inside the TextButton
-	
-	local TweenService = game:GetService("TweenService")
-	local button = script.Parent
-	local player = game.Players.LocalPlayer
-	local character = player.Character or player.CharacterAdded:Wait()
-	local invisible = false
-	
-	-- Store original transparency for restoration
-	local originalTransparency = {}
-	
-	-- Initialize original transparency for all parts
-	for _, part in pairs(character:GetChildren()) do
-		if part:IsA("BasePart") or part:IsA("MeshPart") then
-			originalTransparency[part] = part.Transparency
-			for _, child in pairs(part:GetChildren()) do
-				if child:IsA("Decal") or child:IsA("Texture") then
-					originalTransparency[child] = child.Transparency
-				end
-			end
-		elseif part:IsA("Accessory") then
-			if part:FindFirstChild("Handle") then
-				originalTransparency[part.Handle] = part.Handle.Transparency
-				for _, child in pairs(part.Handle:GetChildren()) do
-					if child:IsA("Mesh") then
-						originalTransparency[child] = child.Transparency
-					end
-				end
-			end
-		end
-	end
-	
-	-- Custom notifier function with slide + pop sound
-	local function showNotifier(message)
-		local playerGui = player:WaitForChild("PlayerGui")
-		local existing = playerGui:FindFirstChild("ESPNotifier")
-	
-		if existing then
-			existing:Destroy()
-		end
-	
-		-- ScreenGui
-		local screenGui = Instance.new("ScreenGui")
-		screenGui.Name = "ESPNotifier"
-		screenGui.ResetOnSpawn = false
-		screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-		screenGui.Parent = playerGui
-	
-		-- TextLabel
-		local textLabel = Instance.new("TextLabel")
-		textLabel.Name = "Label"
-		textLabel.Size = UDim2.new(0, 300, 0, 50)
-		textLabel.Position = UDim2.new(0.5, -150, -0.1, 0) -- start above screen
-		textLabel.AnchorPoint = Vector2.new(0.5, 0)
-		textLabel.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-		textLabel.BackgroundTransparency = 0.3
-		textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-		textLabel.TextStrokeTransparency = 0.5
-		textLabel.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
-		textLabel.Font = Enum.Font.GothamBold
-		textLabel.TextScaled = true
-		textLabel.Text = message
-		textLabel.ZIndex = 1000
-		textLabel.Parent = screenGui
-	
-		-- Rounded corners
-		local corner = Instance.new("UICorner")
-		corner.CornerRadius = UDim.new(0, 12)
-		corner.Parent = textLabel
-	
-		-- Max font size
-		local constraint = Instance.new("UITextSizeConstraint")
-		constraint.MaxTextSize = 32
-		constraint.Parent = textLabel
-	
-		-- Pop sound
-		local sound = Instance.new("Sound")
-		sound.SoundId = "rbxassetid://9118820863" -- small pop sound
-		sound.Volume = 0.5
-		sound.Parent = textLabel
-		sound:Play()
-	
-		-- Slide in
-		local tweenIn = TweenService:Create(textLabel, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
-			Position = UDim2.new(0.5, -150, 0.05, 0),
-			TextTransparency = 0
-		})
-		tweenIn:Play()
-	
-		-- Wait then slide out
-		task.delay(2, function()
-			local tweenOut = TweenService:Create(textLabel, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
-				Position = UDim2.new(0.5, -150, -0.1, 0),
-				TextTransparency = 1
-			})
-			tweenOut:Play()
-			tweenOut.Completed:Wait()
-			if screenGui then
-				screenGui:Destroy()
-			end
-		end)
-	end
-	
-	-- Function to toggle invisibility
-	local function toggleVisibility()
-		invisible = not invisible
-	
-		for part, original in pairs(originalTransparency) do
-			if part and part.Parent then
-				part.Transparency = invisible and 1 or original
-			end
-		end
-	
-		-- Show notifier
-		showNotifier(invisible and "You are now invisible!" or "You are now visible!")
-	end
-	
-	button.MouseButton1Click:Connect(toggleVisibility)
-	
-end
-coroutine.wrap(OOPE_fake_script)()
-local function SIGZ_fake_script() -- GODMODEButton.LocalScript 
-	local script = Instance.new('LocalScript', GODMODEButton)
+createButton("NoclipBtn", "Toggle Noclip", function()
+	noclip = not noclip
+	showNotifier(noclip and "Noclip On" or "Noclip Off")
+end)
 
-	local player = game.Players.LocalPlayer
-	local TweenService = game:GetService("TweenService")
-	
-	-- Notifier function with slide + pop sound
-	local function showNotifier(message)
-		local playerGui = player:WaitForChild("PlayerGui")
-		local existing = playerGui:FindFirstChild("FlyNotifier")
-	
-		if existing then
-			existing:Destroy()
-		end
-	
-		local screenGui = Instance.new("ScreenGui")
-		screenGui.Name = "FlyNotifier"
-		screenGui.ResetOnSpawn = false
-		screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-		screenGui.Parent = playerGui
-	
-		local label = Instance.new("TextLabel")
-		label.Name = "Label"
-		label.Size = UDim2.new(0, 300, 0, 50)
-		label.Position = UDim2.new(0.5, -150, -0.1, 0) -- start above screen
-		label.AnchorPoint = Vector2.new(0.5, 0)
-		label.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-		label.BackgroundTransparency = 0.3
-		label.TextColor3 = Color3.new(1, 1, 1)
-		label.TextStrokeTransparency = 0.5
-		label.TextStrokeColor3 = Color3.new(0, 0, 0)
-		label.Text = message
-		label.Font = Enum.Font.GothamBold
-		label.TextScaled = true
-		label.ZIndex = 999
-		label.Parent = screenGui
-	
-		local corner = Instance.new("UICorner")
-		corner.CornerRadius = UDim.new(0, 12)
-		corner.Parent = label
-	
-		local constraint = Instance.new("UITextSizeConstraint")
-		constraint.MaxTextSize = 32
-		constraint.Parent = label
-	
-		-- Pop sound
-		local sound = Instance.new("Sound")
-		sound.SoundId = "rbxassetid://9118820863"
-		sound.Volume = 0.5
-		sound.Parent = label
-		sound:Play()
-	
-		-- Slide in
-		local tweenIn = TweenService:Create(label, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
-			Position = UDim2.new(0.5, -150, 0.05, 0),
-			TextTransparency = 0
-		})
-		tweenIn:Play()
-	
-		-- Wait then slide out
-		task.delay(2, function()
-			local tweenOut = TweenService:Create(label, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
-				Position = UDim2.new(0.5, -150, -0.1, 0),
-				TextTransparency = 1
-			})
-			tweenOut:Play()
-			tweenOut.Completed:Wait()
-			if screenGui then
-				screenGui:Destroy()
-			end
-		end)
+createButton("GodModeBtn", "God Mode (Heal)", function()
+	if player.Character and player.Character:FindFirstChild("Humanoid") then
+		player.Character.Humanoid.Health = player.Character.Humanoid.MaxHealth
+		showNotifier("Health Restored to Max")
 	end
-	
-	-- Toggle godmode state
-	local godmodeEnabled = false
-	local button = script.Parent
-	
-	button.MouseButton1Click:Connect(function()
-		local character = player.Character
-		if character and character:FindFirstChild("Humanoid") then
-			local humanoid = character.Humanoid
-	
-			if godmodeEnabled then
-				godmodeEnabled = false
-				humanoid.Health = humanoid.MaxHealth
-				showNotifier("Godmode Disabled")
-			else
-				godmodeEnabled = true
-				humanoid.Health = humanoid.MaxHealth
-				showNotifier("Godmode Enabled")
-			end
-		end
-	end)
-	
-	-- Keep health maxed while godmode is enabled
-	game:GetService("RunService").RenderStepped:Connect(function()
-		if godmodeEnabled then
-			local character = player.Character
-			if character and character:FindFirstChild("Humanoid") then
-				character.Humanoid.Health = character.Humanoid.MaxHealth
-			end
-		end
-	end)
-	
-end
-coroutine.wrap(SIGZ_fake_script)()
-local function FWVH_fake_script() -- GOTOPLAYERBox.LocalScript 
-	local script = Instance.new('LocalScript', GOTOPLAYERBox)
+end)
 
-	local player = game.Players.LocalPlayer
-	local TweenService = game:GetService("TweenService")
-	local players = game.Players
-	
-	-- Notifier function (slide + pop sound)
-	local function showNotifier(message)
-		local playerGui = player:WaitForChild("PlayerGui")
-		local existing = playerGui:FindFirstChild("FlyNotifier")
-	
-		if existing then
-			existing:Destroy()
-		end
-	
-		local screenGui = Instance.new("ScreenGui")
-		screenGui.Name = "FlyNotifier"
-		screenGui.ResetOnSpawn = false
-		screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-		screenGui.Parent = playerGui
-	
-		local label = Instance.new("TextLabel")
-		label.Name = "Label"
-		label.Size = UDim2.new(0, 300, 0, 50)
-		label.Position = UDim2.new(0.5, -150, -0.1, 0) -- start above screen
-		label.AnchorPoint = Vector2.new(0.5, 0)
-		label.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-		label.BackgroundTransparency = 0.3
-		label.TextColor3 = Color3.new(1, 1, 1)
-		label.TextStrokeTransparency = 0.5
-		label.TextStrokeColor3 = Color3.new(0, 0, 0)
-		label.Text = message
-		label.Font = Enum.Font.GothamBold
-		label.TextScaled = true
-		label.ZIndex = 999
-		label.Parent = screenGui
-	
-		local corner = Instance.new("UICorner")
-		corner.CornerRadius = UDim.new(0, 12)
-		corner.Parent = label
-	
-		local constraint = Instance.new("UITextSizeConstraint")
-		constraint.MaxTextSize = 32
-		constraint.Parent = label
-	
-		-- Pop sound
-		local sound = Instance.new("Sound")
-		sound.SoundId = "rbxassetid://9118820863"
-		sound.Volume = 0.5
-		sound.Parent = label
-		sound:Play()
-	
-		-- Slide in
-		local tweenIn = TweenService:Create(label, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
-			Position = UDim2.new(0.5, -150, 0.05, 0),
-			TextTransparency = 0
-		})
-		tweenIn:Play()
-	
-		-- Wait then slide out
-		task.delay(2, function()
-			local tweenOut = TweenService:Create(label, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
-				Position = UDim2.new(0.5, -150, -0.1, 0),
-				TextTransparency = 1
-			})
-			tweenOut:Play()
-			tweenOut.Completed:Wait()
-			if screenGui then
-				screenGui:Destroy()
-			end
-		end)
+createTextBox("WalkSpeedBox", "Set WalkSpeed (Enter)", function(val)
+	local num = tonumber(val)
+	if num and player.Character and player.Character:FindFirstChild("Humanoid") then
+		player.Character.Humanoid.WalkSpeed = num
+		showNotifier("WalkSpeed set to " .. num)
 	end
-	
-	-- Reference to the TextBox
-	local textBox = script.Parent -- script inside the TextBox
-	
-	-- Function to teleport to target player
-	local function teleportToPlayer(targetName)
-		local targetPlayer = players:FindFirstChild(targetName)
-		if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
-			local targetHRP = targetPlayer.Character.HumanoidRootPart
-			local character = player.Character
-			if character and character:FindFirstChild("HumanoidRootPart") then
-				character.HumanoidRootPart.CFrame = targetHRP.CFrame + Vector3.new(0, 3, 0) -- teleport slightly above
-				showNotifier("Teleported to "..targetPlayer.Name)
-			else
-				showNotifier("Your character not loaded")
-			end
-		else
-			showNotifier("Player not found")
-		end
-	end
-	
-	-- Connect when Enter is pressed or focus lost
-	textBox.FocusLost:Connect(function(enterPressed)
-		if enterPressed then
-			local targetName = textBox.Text
-			if targetName ~= "" then
-				teleportToPlayer(targetName)
-				textBox.Text = "" -- clear textbox
-			end
-		end
-	end)
-	
-end
-coroutine.wrap(FWVH_fake_script)()
-local function AFJXQ_fake_script() -- JUMPPOWERBox.LocalScript 
-	local script = Instance.new('LocalScript', JUMPPOWERBox)
+end)
 
-	local player = game.Players.LocalPlayer
-	local textbox = script.Parent
-	local TweenService = game:GetService("TweenService")
-	
-	-- Notifier UI with slide + pop sound
-	local function showNotifier(message)
-		local playerGui = player:WaitForChild("PlayerGui")
-		local existing = playerGui:FindFirstChild("JumpPowerNotifier")
-	
-		if existing then
-			existing:Destroy()
-		end
-	
-		local screenGui = Instance.new("ScreenGui")
-		screenGui.Name = "JumpPowerNotifier"
-		screenGui.ResetOnSpawn = false
-		screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-		screenGui.Parent = playerGui
-	
-		local label = Instance.new("TextLabel")
-		label.Name = "Label"
-		label.Size = UDim2.new(0, 300, 0, 50)
-		label.Position = UDim2.new(0.5, -150, -0.1, 0) -- start above screen
-		label.AnchorPoint = Vector2.new(0.5, 0)
-		label.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-		label.BackgroundTransparency = 0.3
-		label.TextColor3 = Color3.new(1, 1, 1)
-		label.TextStrokeTransparency = 0.5
-		label.TextStrokeColor3 = Color3.new(0, 0, 0)
-		label.Text = message
-		label.Font = Enum.Font.GothamBold
-		label.TextScaled = true
-		label.ZIndex = 999
-		label.Parent = screenGui
-	
-		local corner = Instance.new("UICorner")
-		corner.CornerRadius = UDim.new(0, 12)
-		corner.Parent = label
-	
-		local constraint = Instance.new("UITextSizeConstraint")
-		constraint.MaxTextSize = 32
-		constraint.Parent = label
-	
-		-- Pop sound
-		local sound = Instance.new("Sound")
-		sound.SoundId = "rbxassetid://9118820863" -- small pop sound
-		sound.Volume = 0.5
-		sound.Parent = label
-		sound:Play()
-	
-		-- Slide in
-		local tweenIn = TweenService:Create(label, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
-			Position = UDim2.new(0.5, -150, 0.05, 0),
-			TextTransparency = 0
-		})
-		tweenIn:Play()
-	
-		-- Wait then slide out
-		task.delay(2, function()
-			local tweenOut = TweenService:Create(label, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
-				Position = UDim2.new(0.5, -150, -0.1, 0),
-				TextTransparency = 1
-			})
-			tweenOut:Play()
-			tweenOut.Completed:Wait()
-			screenGui:Destroy()
-		end)
+createTextBox("JumpPowerBox", "Set JumpPower (Enter)", function(val)
+	local num = tonumber(val)
+	if num and player.Character and player.Character:FindFirstChild("Humanoid") then
+		player.Character.Humanoid.UseJumpPower = true
+		player.Character.Humanoid.JumpPower = num
+		showNotifier("JumpPower set to " .. num)
 	end
-	
-	local function applyJumpPower(power)
-		local character = player.Character
-		if not character then return end
-		local humanoid = character:FindFirstChildOfClass("Humanoid")
-		if humanoid then
-			humanoid.UseJumpPower = true -- force usage of JumpPower
-			humanoid.JumpPower = power
-		end
-	end
-	
-	local function setJumpPower(value)
-		local power = tonumber(value)
-		if power and power >= 50 and power <= 500 then
-			applyJumpPower(power)
-			showNotifier("JumpPower set to " .. power)
-		else
-			showNotifier("Invalid JumpPower! (50–500)")
-		end
-	end
-	
-	-- Apply jump power on character respawn to persist settings
-	local function onCharacterAdded(character)
-		character:WaitForChild("Humanoid").UseJumpPower = true
-		if tonumber(textbox.Text:match("%d+")) then
-			applyJumpPower(tonumber(textbox.Text:match("%d+")))
-		end
-	end
-	
-	player.CharacterAdded:Connect(onCharacterAdded)
-	
-	-- Initial application if character already loaded
-	if player.Character then
-		onCharacterAdded(player.Character)
-	end
-	
-	textbox.FocusLost:Connect(function(enterPressed)
-		if enterPressed then
-			local input = textbox.Text:match("%d+")
-			setJumpPower(input)
-		end
-	end)
-	
-end
-coroutine.wrap(AFJXQ_fake_script)()
-local function WEFBJRH_fake_script() -- WALKSPEEDBox.LocalScript 
-	local script = Instance.new('LocalScript', WALKSPEEDBox)
+end)
 
-	-- LocalScript inside WALKSPEEDBox
-	
-	local player = game.Players.LocalPlayer
-	local textbox = script.Parent
-	local TweenService = game:GetService("TweenService")
-	
-	-- Notifier UI with slide + pop sound
-	local function showNotifier(message)
-		local playerGui = player:WaitForChild("PlayerGui")
-		local existing = playerGui:FindFirstChild("WalkSpeedNotifier")
-	
-		if existing then
-			existing:Destroy()
+createTextBox("GotoBox", "Teleport to Player", function(val)
+	local target = Players:FindFirstChild(val)
+	if target and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
+		if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+			player.Character.HumanoidRootPart.CFrame = target.Character.HumanoidRootPart.CFrame + Vector3.new(0, 3, 0)
+			showNotifier("Teleported to " .. target.Name)
 		end
-	
-		local screenGui = Instance.new("ScreenGui")
-		screenGui.Name = "WalkSpeedNotifier"
-		screenGui.ResetOnSpawn = false
-		screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-		screenGui.Parent = playerGui
-	
-		local label = Instance.new("TextLabel")
-		label.Name = "Label"
-		label.Size = UDim2.new(0, 300, 0, 50)
-		label.Position = UDim2.new(0.5, -150, -0.1, 0) -- start above screen
-		label.AnchorPoint = Vector2.new(0.5, 0)
-		label.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-		label.BackgroundTransparency = 0.3
-		label.TextColor3 = Color3.new(1, 1, 1)
-		label.TextStrokeTransparency = 0.5
-		label.TextStrokeColor3 = Color3.new(0, 0, 0)
-		label.Text = message
-		label.Font = Enum.Font.GothamBold
-		label.TextScaled = true
-		label.ZIndex = 999
-		label.Parent = screenGui
-	
-		local corner = Instance.new("UICorner")
-		corner.CornerRadius = UDim.new(0, 12)
-		corner.Parent = label
-	
-		local constraint = Instance.new("UITextSizeConstraint")
-		constraint.MaxTextSize = 32
-		constraint.Parent = label
-	
-		-- Pop sound
-		local sound = Instance.new("Sound")
-		sound.SoundId = "rbxassetid://9118820863" -- small pop sound
-		sound.Volume = 0.5
-		sound.Parent = label
-		sound:Play()
-	
-		-- Slide in
-		local tweenIn = TweenService:Create(label, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
-			Position = UDim2.new(0.5, -150, 0.05, 0),
-			TextTransparency = 0
-		})
-		tweenIn:Play()
-	
-		-- Wait then slide out
-		task.delay(2, function()
-			local tweenOut = TweenService:Create(label, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
-				Position = UDim2.new(0.5, -150, -0.1, 0),
-				TextTransparency = 1
-			})
-			tweenOut:Play()
-			tweenOut.Completed:Wait()
-			screenGui:Destroy()
-		end)
+	else
+		showNotifier("Player not found!")
 	end
-	
-	-- Function to apply WalkSpeed
-	local function setWalkSpeed(value)
-		local speed = tonumber(value)
-		if speed and speed >= 16 and speed <= 500 then
-			local character = player.Character or player.CharacterAdded:Wait()
-			local humanoid = character:FindFirstChildOfClass("Humanoid")
-			if humanoid then
-				humanoid.WalkSpeed = speed
-				showNotifier("WalkSpeed set to " .. speed)
-			end
-		else
-			showNotifier("Invalid WalkSpeed! (16–500)")
-		end
-	end
-	
-	-- When user finishes typing and presses Enter or unfocuses
-	textbox.FocusLost:Connect(function(enterPressed)
-		if enterPressed then
-			local input = textbox.Text:match("%d+")
-			setWalkSpeed(input)
-		end
-	end)
-	
-end
-coroutine.wrap(WEFBJRH_fake_script)()
-local function PELFK_fake_script() -- FLINGPLAYERBox.LocalScript 
-	local script = Instance.new('LocalScript', FLINGPLAYERBox)
+end)
 
-	local player = game.Players.LocalPlayer
-	local TweenService = game:GetService("TweenService")
-	local players = game.Players
-	local RunService = game:GetService("RunService")
-	
-	-- Notifier function (slide + pop sound)
-	local function showNotifier(message)
-		local playerGui = player:WaitForChild("PlayerGui")
-		local existing = playerGui:FindFirstChild("FlyNotifier")
-	
-		if existing then
-			existing:Destroy()
-		end
-	
-		local screenGui = Instance.new("ScreenGui")
-		screenGui.Name = "FlyNotifier"
-		screenGui.ResetOnSpawn = false
-		screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-		screenGui.Parent = playerGui
-	
-		local label = Instance.new("TextLabel")
-		label.Name = "Label"
-		label.Size = UDim2.new(0, 300, 0, 50)
-		label.Position = UDim2.new(0.5, -150, -0.1, 0) -- start above screen
-		label.AnchorPoint = Vector2.new(0.5, 0)
-		label.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-		label.BackgroundTransparency = 0.3
-		label.TextColor3 = Color3.new(1, 1, 1)
-		label.TextStrokeTransparency = 0.5
-		label.TextStrokeColor3 = Color3.new(0, 0, 0)
-		label.Text = message
-		label.Font = Enum.Font.GothamBold
-		label.TextScaled = true
-		label.ZIndex = 999
-		label.Parent = screenGui
-	
-		local corner = Instance.new("UICorner")
-		corner.CornerRadius = UDim.new(0, 12)
-		corner.Parent = label
-	
-		local constraint = Instance.new("UITextSizeConstraint")
-		constraint.MaxTextSize = 32
-		constraint.Parent = label
-	
-		-- Pop sound
-		local sound = Instance.new("Sound")
-		sound.SoundId = "rbxassetid://9118820863"
-		sound.Volume = 0.5
-		sound.Parent = label
-		sound:Play()
-	
-		-- Slide in
-		local tweenIn = TweenService:Create(label, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
-			Position = UDim2.new(0.5, -150, 0.05, 0),
-			TextTransparency = 0
-		})
-		tweenIn:Play()
-	
-		-- Wait then slide out
-		task.delay(2, function()
-			local tweenOut = TweenService:Create(label, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
-				Position = UDim2.new(0.5, -150, -0.1, 0),
-				TextTransparency = 1
-			})
-			tweenOut:Play()
-			tweenOut.Completed:Wait()
-			if screenGui then
-				screenGui:Destroy()
-			end
-		end)
+local destroyBtn = createButton("DestroyUIBtn", "DESTROY UI", function()
+	showNotifier("Shutting down Kiy Hub...")
+	task.wait(1)
+	if KiyHub then
+		KiyHub:Destroy()
 	end
-	
-	-- Reference to the TextBox
-	local textBox = script.Parent
-	
-	-- Function to fling a player
-	local function flingPlayer(targetName)
-		local targetPlayer = players:FindFirstChild(targetName)
-		if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
-			local targetHRP = targetPlayer.Character.HumanoidRootPart
-	
-			-- Apply a strong velocity to fling
-			local bodyVelocity = Instance.new("BodyVelocity")
-			bodyVelocity.Velocity = Vector3.new(math.random(-100,100), 200, math.random(-100,100))
-			bodyVelocity.MaxForce = Vector3.new(1e5, 1e5, 1e5)
-			bodyVelocity.P = 1e5
-			bodyVelocity.Parent = targetHRP
-	
-			-- Remove the velocity after 0.5 seconds
-			task.delay(0.5, function()
-				bodyVelocity:Destroy()
-			end)
-	
-			showNotifier("Flinged "..targetPlayer.Name)
-		else
-			showNotifier("Player not found")
-		end
-	end
-	
-	-- Connect when Enter is pressed or focus lost
-	textBox.FocusLost:Connect(function(enterPressed)
-		if enterPressed then
-			local targetName = textBox.Text
-			if targetName ~= "" then
-				flingPlayer(targetName)
-				textBox.Text = ""
-			end
-		end
-	end)
-	
-end
-coroutine.wrap(PELFK_fake_script)()
-local function HROYATJ_fake_script() -- CloseFrame.Tween 
-	local script = Instance.new('LocalScript', CloseFrame)
+end)
+destroyBtn.BackgroundColor3 = Color3.fromRGB(200, 40, 40)
+destroyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 
-	local TweenService = game:GetService("TweenService")
-	local Button = script.Parent
-	
-	-- Tween settings
-	local hoverColor = Color3.fromRGB(70, 0, 0) -- hover color
-	local normalColor = Button.BackgroundColor3 -- original color
-	local tweenTime = 0.2
-	
-	-- Create tweens
-	local hoverTween = TweenService:Create(Button, TweenInfo.new(tweenTime, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-		BackgroundColor3 = hoverColor
-	})
-	
-	local leaveTween = TweenService:Create(Button, TweenInfo.new(tweenTime, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-		BackgroundColor3 = normalColor
-	})
-	
-	-- Hover events
-	Button.MouseEnter:Connect(function()
-		hoverTween:Play()
-	end)
-	
-	Button.MouseLeave:Connect(function()
-		leaveTween:Play()
-	end)
-	
-end
-coroutine.wrap(HROYATJ_fake_script)()
-local function FWOL_fake_script() -- CloseFrame.MainScript 
-	local script = Instance.new('LocalScript', CloseFrame)
+local CloseBtn = Instance.new("TextButton")
+CloseBtn.Size = UDim2.new(0, 30, 0, 30)
+CloseBtn.Position = UDim2.new(1, -35, 0, 5)
+CloseBtn.BackgroundColor3 = Color3.fromRGB(200, 40, 40)
+CloseBtn.Text = "X"
+CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+CloseBtn.Font = Enum.Font.GothamBold
+CloseBtn.Parent = TopBar
 
-	local Button = script.Parent
-	local Frame = Button.Parent
-	local Players = game:GetService("Players")
-	local TweenService = game:GetService("TweenService")
-	
-	local player = Players.LocalPlayer
-	
-	-- Show notifier (fancy with slide + pop sound)
-	local function showNotifier(message)
-		local playerGui = player:WaitForChild("PlayerGui")
-		local existing = playerGui:FindFirstChild("FlyNotifier")
-	
-		if existing then
-			existing:Destroy()
-		end
-	
-		local screenGui = Instance.new("ScreenGui")
-		screenGui.Name = "FlyNotifier"
-		screenGui.ResetOnSpawn = false
-		screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-		screenGui.Parent = playerGui
-	
-		local label = Instance.new("TextLabel")
-		label.Name = "Label"
-		label.Size = UDim2.new(0, 300, 0, 50)
-		label.Position = UDim2.new(0.5, -150, -0.1, 0) -- start above screen
-		label.AnchorPoint = Vector2.new(0.5, 0)
-		label.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-		label.BackgroundTransparency = 0.3
-		label.TextColor3 = Color3.new(1, 1, 1)
-		label.TextStrokeTransparency = 0.5
-		label.TextStrokeColor3 = Color3.new(0, 0, 0)
-		label.Text = message
-		label.Font = Enum.Font.GothamBold
-		label.TextScaled = true
-		label.ZIndex = 999
-		label.Parent = screenGui
-	
-		local corner = Instance.new("UICorner")
-		corner.CornerRadius = UDim.new(0, 12)
-		corner.Parent = label
-	
-		local constraint = Instance.new("UITextSizeConstraint")
-		constraint.MaxTextSize = 32
-		constraint.Parent = label
-	
-		-- Pop sound
-		local sound = Instance.new("Sound")
-		sound.SoundId = "rbxassetid://9118820863" -- small pop sound
-		sound.Volume = 0.5
-		sound.Parent = label
-		sound:Play()
-	
-		-- Slide in
-		local tweenIn = TweenService:Create(label, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
-			Position = UDim2.new(0.5, -150, 0.05, 0),
-			TextTransparency = 0
-		})
-		tweenIn:Play()
-	
-		-- Wait then slide out
-		task.delay(2, function()
-			local tweenOut = TweenService:Create(label, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
-				Position = UDim2.new(0.5, -150, -0.1, 0),
-				TextTransparency = 1
-			})
-			tweenOut:Play()
-			tweenOut.Completed:Wait()
-			screenGui:Destroy()
-		end)
-	end
-	
-	Button.MouseButton1Click:Connect(function()
-		Frame.Visible = false
-		showNotifier("Cheat Closed")
-	end)
-	
-end
-coroutine.wrap(FWOL_fake_script)()
--- CloseFrame.MainScript is disabled.
-local function JJQOWVE_fake_script() -- TextLabel_3.LocalScript 
-	local script = Instance.new('LocalScript', TextLabel_3)
+local CloseCorner = Instance.new("UICorner")
+CloseCorner.CornerRadius = UDim.new(0, 6)
+CloseCorner.Parent = CloseBtn
 
-	-- LocalScript inside the TextLabel
-	
-	local Players = game:GetService("Players")
-	local LocalPlayer = Players.LocalPlayer
-	local textLabel = script.Parent -- The TextLabel itself
-	
-	-- TextLabel settings
-	textLabel.Text = ""
-	textLabel.TextScaled = true
-	textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-	textLabel.BackgroundTransparency = 0.5
-	textLabel.BackgroundColor3 = Color3.fromRGB(0,0,0)
-	textLabel.ClipsDescendants = true
-	
-	-- Create a frame to hold avatar, username, and status
-	local frame = Instance.new("Frame")
-	frame.Size = UDim2.new(1, 0, 1, 0)
-	frame.BackgroundTransparency = 1
-	frame.Parent = textLabel
-	
-	-- Profile avatar image
-	local avatarImage = Instance.new("ImageLabel")
-	avatarImage.Size = UDim2.new(0, 40, 0, 40)
-	avatarImage.Position = UDim2.new(0, 5, 0.5, -20)
-	avatarImage.BackgroundTransparency = 1
-	avatarImage.Image = Players:GetUserThumbnailAsync(LocalPlayer.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size48x48)
-	avatarImage.Parent = frame
-	
-	-- Make avatar circular
-	local avatarCorner = Instance.new("UICorner")
-	avatarCorner.CornerRadius = UDim.new(0.5, 0)
-	avatarCorner.Parent = avatarImage
-	
-	-- Username label
-	local usernameLabel = Instance.new("TextLabel")
-	usernameLabel.Size = UDim2.new(0, 120, 0, 40)
-	usernameLabel.Position = UDim2.new(0, 50, 0.5, -20)
-	usernameLabel.BackgroundTransparency = 1
-	usernameLabel.Text = LocalPlayer.Name
-	usernameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-	usernameLabel.TextScaled = true
-	usernameLabel.TextXAlignment = Enum.TextXAlignment.Left
-	usernameLabel.Parent = frame
-	
-	-- Status dot (bottom-right of avatar)
-	local statusDot = Instance.new("Frame")
-	statusDot.Size = UDim2.new(0, 12, 0, 12) -- smaller dot
-	statusDot.AnchorPoint = Vector2.new(1, 1) -- anchor to bottom-right of parent
-	statusDot.Position = UDim2.new(1, 0, 1, 0) -- bottom-right corner exactly
-	statusDot.BackgroundColor3 = Color3.fromRGB(0, 255, 0) -- green
-	statusDot.BorderSizePixel = 0
-	statusDot.Parent = avatarImage -- parent it to avatar
-	
-	-- Make it circular
-	local uicorner = Instance.new("UICorner")
-	uicorner.CornerRadius = UDim.new(0.5, 0)
-	uicorner.Parent = statusDot
-	
-	
-	-- Make it circular
-	local uicorner = Instance.new("UICorner")
-	uicorner.CornerRadius = UDim.new(0.5, 0)
-	uicorner.Parent = statusDot
-	
-	-- Optional: keep status dot green only if label is visible on screen
-	local function isVisibleOnScreen(guiObject)
-		local screenSize = workspace.CurrentCamera.ViewportSize
-		local guiPos = guiObject.AbsolutePosition
-		local guiSize = guiObject.AbsoluteSize
-	
-		local inX = guiPos.X + guiSize.X > 0 and guiPos.X < screenSize.X
-		local inY = guiPos.Y + guiSize.Y > 0 and guiPos.Y < screenSize.Y
-		return inX and inY
-	end
-	
-	game:GetService("RunService").RenderStepped:Connect(function()
-		if isVisibleOnScreen(textLabel) then
-			statusDot.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-		else
-			statusDot.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- hidden when offscreen
-		end
-	end)
-	
-end
-coroutine.wrap(JJQOWVE_fake_script)()
--- TextLabel_3.LocalScript is disabled.
-local function NPXDHWF_fake_script() -- ChatFrame.LocalScript 
-	local script = Instance.new('LocalScript', ChatFrame)
+CloseBtn.MouseButton1Click:Connect(function()
+	MainFrame.Visible = false
+	showNotifier("Kiy Hub Hidden")
+end)
 
-	local Players = game:GetService("Players")
-	local TweenService = game:GetService("TweenService")
-	local player = Players.LocalPlayer
-	
-	local chatFrame = script.Parent
-	local chatInput = chatFrame:WaitForChild("ChatInput")
-	local chatButton = chatFrame:WaitForChild("SendButton")
-	local chatDisplay = chatFrame:WaitForChild("ChatDisplay")
-	local clearButton = chatFrame:WaitForChild("ClearChatButton") -- make sure the name matches
-	
-	-- Function to display a message with avatar
-	local function displayMessage(user, message)
-		local msgFrame = Instance.new("Frame")
-		msgFrame.Size = UDim2.new(1, 0, 0, 40)
-		msgFrame.BackgroundTransparency = 1
-		msgFrame.Parent = chatDisplay
-	
-		-- Player avatar
-		local avatar = Instance.new("ImageLabel")
-		avatar.Size = UDim2.new(0, 30, 0, 30)
-		avatar.Position = UDim2.new(0, 0, 0.5, -15)
-		avatar.BackgroundTransparency = 1
-		avatar.Image = Players:GetUserThumbnailAsync(user.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size48x48)
-		avatar.Parent = msgFrame
-	
-		-- Username + message
-		local msgLabel = Instance.new("TextLabel")
-		msgLabel.Position = UDim2.new(0, 35, 0, 0)
-		msgLabel.Size = UDim2.new(1, -35, 1, 0)
-		msgLabel.BackgroundTransparency = 1
-		msgLabel.Text = user.Name .. ": " .. message
-		msgLabel.TextScaled = false
-		msgLabel.TextSize = 18
-		msgLabel.TextWrapped = true
-		msgLabel.Font = Enum.Font.SourceSans
-		msgLabel.TextXAlignment = Enum.TextXAlignment.Left
-		msgLabel.TextYAlignment = Enum.TextYAlignment.Center
-		msgLabel.Parent = msgFrame
-	
-		chatDisplay.CanvasPosition = Vector2.new(0, chatDisplay.CanvasSize.Y.Offset)
-	end
-	
-	-- Send message
-	local function sendMessage()
-		local message = chatInput.Text
-		if message ~= "" then
-			displayMessage(player, message)
-			chatInput.Text = ""
-		end
-	end
-	
-	chatButton.MouseButton1Click:Connect(sendMessage)
-	chatInput.FocusLost:Connect(function(enterPressed)
-		if enterPressed then
-			sendMessage()
-		end
-	end)
-	
-	-- Sliding Notifier with pop sound
-	local function showNotifier(message)
-		local playerGui = player:WaitForChild("PlayerGui")
-		local existing = playerGui:FindFirstChild("FlyNotifier")
-		if existing then
-			existing:Destroy()
-		end
-	
-		local screenGui = Instance.new("ScreenGui")
-		screenGui.Name = "FlyNotifier"
-		screenGui.ResetOnSpawn = false
-		screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-		screenGui.Parent = playerGui
-	
-		local label = Instance.new("TextLabel")
-		label.Name = "Label"
-		label.Size = UDim2.new(0, 300, 0, 50)
-		label.Position = UDim2.new(0.5, -150, -0.1, 0)
-		label.AnchorPoint = Vector2.new(0.5, 0)
-		label.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-		label.BackgroundTransparency = 0.3
-		label.TextColor3 = Color3.new(1, 1, 1)
-		label.TextStrokeTransparency = 0.5
-		label.TextStrokeColor3 = Color3.new(0, 0, 0)
-		label.Text = message
-		label.Font = Enum.Font.GothamBold
-		label.TextScaled = true
-		label.ZIndex = 999
-		label.Parent = screenGui
-	
-		local corner = Instance.new("UICorner")
-		corner.CornerRadius = UDim.new(0, 12)
-		corner.Parent = label
-	
-		local constraint = Instance.new("UITextSizeConstraint")
-		constraint.MaxTextSize = 32
-		constraint.Parent = label
-	
-		-- Pop sound
-		local sound = Instance.new("Sound")
-		sound.SoundId = "rbxassetid://9118820863" -- small pop sound (replace if you want)
-		sound.Volume = 0.5
-		sound.Parent = label
-		sound:Play()
-	
-		-- Slide in and fade in
-		local tweenIn = TweenService:Create(label, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
-			Position = UDim2.new(0.5, -150, 0.05, 0),
-			TextTransparency = 0
-		})
-		tweenIn:Play()
-	
-		-- Wait then slide out
-		task.delay(2, function()
-			local tweenOut = TweenService:Create(label, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
-				Position = UDim2.new(0.5, -150, -0.1, 0),
-				TextTransparency = 1
-			})
-			tweenOut:Play()
-			tweenOut.Completed:Wait()
-			screenGui:Destroy()
-		end)
-	end
-	
-	-- Clear chat and show notifier
-	clearButton.MouseButton1Click:Connect(function()
-		chatDisplay:ClearAllChildren()
-		showNotifier("Chat Cleared")
-	end)
-	
-end
-coroutine.wrap(NPXDHWF_fake_script)()
--- ChatFrame.LocalScript is disabled.
-local function BRXG_fake_script() -- OpenFrame.MainScript 
-	local script = Instance.new('LocalScript', OpenFrame)
-
-	local TweenService = game:GetService("TweenService")
-	local Players = game:GetService("Players")
-	local player = Players.LocalPlayer
-	
-	local Button = script.Parent              -- the button
-	local Frame = Button.Parent:WaitForChild("MainFrame")  -- the frame to open
-	
-	-- Save original properties
-	local originalPosition = Frame.Position
-	local originalTransparency = Frame.BackgroundTransparency
-	
-	-- Ensure frame is completely hidden on join
-	Frame.Visible = false
-	Frame.Position = originalPosition + UDim2.new(0, 0, -0.05, 0)
-	Frame.BackgroundTransparency = 1
-	Frame.ZIndex = 0
-	
-	-- Track if the cheat has been loaded once
-	local firstLoad = true
-	
-	-- Function to show a notifier message
-	local function showNotifier(message, instant)
-		local playerGui = player:WaitForChild("PlayerGui")
-		local existing = playerGui:FindFirstChild("FlyNotifier")
-		if existing then
-			existing:Destroy()
-		end
-	
-		local screenGui = Instance.new("ScreenGui")
-		screenGui.Name = "FlyNotifier"
-		screenGui.ResetOnSpawn = false
-		screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-		screenGui.Parent = playerGui
-	
-		local label = Instance.new("TextLabel")
-		label.Size = UDim2.new(0, 300, 0, 50)
-		label.Position = UDim2.new(0.5, -150, 0.05, 0) -- same as other notifiers
-		label.AnchorPoint = Vector2.new(0.5, 0)
-		label.BackgroundColor3 = Color3.fromRGB(35, 35, 35) -- updated color to match others
-		label.BackgroundTransparency = 0 -- fully visible
-		label.TextColor3 = Color3.new(1, 1, 1)
-		label.TextStrokeTransparency = 0.5
-		label.TextStrokeColor3 = Color3.new(0, 0, 0)
-		label.Text = message
-		label.Font = Enum.Font.GothamBold
-		label.TextScaled = true
-		label.ZIndex = 999
-		label.Parent = screenGui
-	
-		local corner = Instance.new("UICorner")
-		corner.CornerRadius = UDim.new(0, 12)
-		corner.Parent = label
-	
-		local constraint = Instance.new("UITextSizeConstraint")
-		constraint.MaxTextSize = 32
-		constraint.Parent = label
-	
-		if instant then
-			task.delay(1, function()
-				screenGui:Destroy()
-			end)
-		else
-			local fadeIn = TweenService:Create(label, TweenInfo.new(0.5), {
-				BackgroundTransparency = 0,
-				TextTransparency = 0
-			})
-			fadeIn:Play()
-			fadeIn.Completed:Wait()
-	
-			task.wait(1.5)
-	
-			local fadeOut = TweenService:Create(label, TweenInfo.new(0.5), {
-				BackgroundTransparency = 1,
-				TextTransparency = 1
-			})
-			fadeOut:Play()
-			fadeOut.Completed:Wait()
-			screenGui:Destroy()
-		end
-	end
-	
-	-- Function to open the frame with tween
-	local function openFrame()
-		Frame.Position = originalPosition + UDim2.new(0,0,-0.05,0)
-		Frame.BackgroundTransparency = 1
-		Frame.Visible = true
-	
-		local tween = TweenService:Create(Frame, TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
-			Position = originalPosition,
-			BackgroundTransparency = originalTransparency
-		})
-		tween:Play()
-	end
-	
-	-- Button click handler
-	Button.MouseButton1Click:Connect(function()
-		if firstLoad then
-			showNotifier("WELCOME TO KENZIES CHEATS, LOADING...", false)
-			openFrame()
-			firstLoad = false
-		else
-			showNotifier("Cheat Opened", true)
-			openFrame()
-		end
-	end)
-	
-end
-coroutine.wrap(BRXG_fake_script)()
+showNotifier("Welcome to Kiy Hub! UI Modern Loaded.")
